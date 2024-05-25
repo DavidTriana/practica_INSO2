@@ -1,3 +1,4 @@
+use inso2bbdd;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: localhost    Database: inso2
@@ -23,7 +24,7 @@ DROP TABLE IF EXISTS `envios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `envios` (
-  `idEnvio` int NOT NULL,
+  `idEnvio` int NOT NULL AUTO_INCREMENT,
   `fecha` varchar(45) NOT NULL,
   `hora` varchar(45) NOT NULL,
   `estado` varchar(45) DEFAULT NULL,
@@ -51,7 +52,7 @@ DROP TABLE IF EXISTS `pedidos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pedidos` (
-  `idPedido` int NOT NULL,
+  `idPedido` int NOT NULL AUTO_INCREMENT,
   `costeTotal` double NOT NULL,
   `usuario` int NOT NULL,
   `productos` varchar(200) NOT NULL,
@@ -78,7 +79,7 @@ DROP TABLE IF EXISTS `productos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `productos` (
-  `idProducto` int NOT NULL,
+  `idProducto` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `marca` varchar(45) DEFAULT NULL,
   `descripcion` varchar(200) DEFAULT NULL,
@@ -110,7 +111,7 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
-  `idUsuario` int NOT NULL,
+  `idUsuario` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
@@ -139,7 +140,7 @@ DROP TABLE IF EXISTS `valoraciones`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `valoraciones` (
-  `idValoracion` int NOT NULL,
+  `idValoracion` int NOT NULL AUTO_INCREMENT,
   `valoracion` int NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `fecha` varchar(45) NOT NULL,
@@ -171,7 +172,7 @@ DROP TABLE IF EXISTS `vendedores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `vendedores` (
-  `idVendedor` int NOT NULL,
+  `idVendedor` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
