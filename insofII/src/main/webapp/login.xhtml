@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login</title>
+    </h:head>
+    <h:body>
+        Me he meado
+        <h:form>
+            <p:divider>
+                <p:outputLabel value="Usuario:"/>            
+                <!-- pasa el input a la clase controladora-->
+                <p:inputText value="#{loginControlador.usuario.nombre}"/> 
+            </p:divider>
+
+            <p:divider>
+                <p:outputLabel value="Contraseña:"/>
+                <p:inputText value="#{loginControlador.usuario.contrasenia}"/>
+            </p:divider>
+
+            <p:commandButton value="Iniciar sesión" actionListener="#{loginControlador.verificarUsuario()}"/>  
+
+        </h:form>
+    </h:body>
+</html>
