@@ -4,14 +4,39 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Registro</title>
     </h:head>
     <h:body>
-        Hello from Facelets
-        <h:form>
-            <p:outputLabel value="Inserte el nombre del usuario"/>
-            <p:inputText value="#{usuarioControlador.usuario.nombre}"/>
-            <p:commandButton value="Insertar" actionListener="#{usuarioControlador.insertarUsuario()}"/>
+        <h:form id="formRegistro">
+            
+            <h2> Registrarse </h2>
+            <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" id="grid">
+                <p:outputLabel value="Inserte el nombre del usuario" for="txtNombre"/>
+                <p:inputText value="#{usuarioControlador.usuario.nombre}" required="true" requiredMessage="Nombre es un campo obligatorio" id="txtNombre" />
+                <p:message for="txtNombre" display="text" />
+                
+                <p:outputLabel value="Inserte el telefono del usuario" for="txtTelefono"/>
+                <p:inputText value="#{usuarioControlador.usuario.telefono}" required="true" requiredMessage="Telefono es un campo obligatorio" id="txtTelefono"/>
+                <p:message for="txtTelefono" display="text" />
+                
+                <p:outputLabel value="Inserte el email del usuario" for="txtEmail"/>
+                <p:inputText value="#{usuarioControlador.usuario.email}" required="true" requiredMessage="Email es un campo obligatorio" id="txtEmail"/>
+                <p:message for="txtEmail" display="text" />
+                
+                <p:outputLabel value="Inserte el contraseña del usuario" for="txtContrasenia"/>
+                <p:password value="#{usuarioControlador.usuario.contrasenia}" required="true" requiredMessage="Contraseña es un campo obligatorio" id="txtContrasenia" feedback="true" promptLabel="Ingresa tu contraseña" weakLabel="Débil"
+                            goodLabel="Buena" strongLabel="Fuerte" toggleMask="true" redisplay="true"/>
+                <p:message for="txtContrasenia" display="text" />
+                
+                <p:outputLabel value="Inserte el direccion del usuario" for="txtDireccion"/>
+                <p:inputText value="#{usuarioControlador.usuario.direccion}" required="true" requiredMessage="Dirección es un campo obligatorio" id="txtDireccion"/>
+                <p:message for="txtDireccion" display="text" />
+                
+                <p:outputLabel value="Inserte el tarjeta del banco del usuario" for="txtTarjeta"/>
+                <p:inputText value="#{usuarioControlador.usuario.tarjetaBanco}" required="true" requiredMessage="Numero de tarjeta es un campo obligatorio" id="txtTarjeta"/>
+                <p:message for="txtTarjeta" display="text" />
+            </p:panelGrid>
+            <p:commandButton id="submitButton" update="grid" value="Insertar" actionListener="#{usuarioControlador.insertarUsuario()}"/>
         </h:form>
     </h:body>
 </html>
