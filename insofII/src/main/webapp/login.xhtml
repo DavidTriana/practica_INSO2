@@ -7,6 +7,7 @@
         <title>Login</title>
     </h:head>
     <h:body>
+<<<<<<< Updated upstream
         <h:form>
             <p:divider>
                 <p:outputLabel value="Usuario:"/>            
@@ -20,7 +21,23 @@
             </p:divider>
 
             <p:commandButton value="Iniciar sesión" actionListener="#{loginControlador.verificarUsuario()}"/>  
+=======
+        <h:form id="formLogin">
+            <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" id="gridLogin">
+                <p:outputLabel value="Usuario:" for="txtNombre"/>
+                <p:inputText value="#{loginControlador.usuario.nombre}" required="true" requiredMessage="Nombre es un campo obligatorio" id="txtNombre"/> 
+                <p:message for="txtNombre" display="text"/>
+>>>>>>> Stashed changes
 
+                <p:outputLabel value="Contraseña:" for="txtContrasenia"/>
+                <p:password value="#{loginControlador.usuario.contrasenia}" required="true" requiredMessage="Contraseña es un campo obligatorio" id="txtContrasenia"/>
+                <p:message for="txtContrasenia" display="text"/>
+            </p:panelGrid>
+            <p:commandButton id="submitButton" update="gridLogin" value="Iniciar sesión" actionListener="#{loginControlador.verificarUsuario()}"/>
+            <h:messages globalOnly="true" style="color: red;" />
+            
+            <p:outputLabel value="¿No tienes cuenta?"/>
+            <a href="faces/index.xhtml" class="button-link">Registrarse</a>
         </h:form>
     </h:body>
 </html>
