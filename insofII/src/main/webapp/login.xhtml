@@ -7,27 +7,11 @@
         <title>Login</title>
     </h:head>
     <h:body>
-<<<<<<< Updated upstream
-        <h:form>
-            <p:divider>
-                <p:outputLabel value="Usuario:"/>            
-                <!-- pasa el input a la clase controladora-->
-                <p:inputText value="#{loginControlador.usuario.nombre}"/> 
-            </p:divider>
-
-            <p:divider>
-                <p:outputLabel value="Contraseña:"/>
-                <p:inputText value="#{loginControlador.usuario.contrasenia}"/>
-            </p:divider>
-
-            <p:commandButton value="Iniciar sesión" actionListener="#{loginControlador.verificarUsuario()}"/>  
-=======
         <h:form id="formLogin">
             <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" id="gridLogin">
                 <p:outputLabel value="Usuario:" for="txtNombre"/>
                 <p:inputText value="#{loginControlador.usuario.nombre}" required="true" requiredMessage="Nombre es un campo obligatorio" id="txtNombre"/> 
                 <p:message for="txtNombre" display="text"/>
->>>>>>> Stashed changes
 
                 <p:outputLabel value="Contraseña:" for="txtContrasenia"/>
                 <p:password value="#{loginControlador.usuario.contrasenia}" required="true" requiredMessage="Contraseña es un campo obligatorio" id="txtContrasenia"/>
