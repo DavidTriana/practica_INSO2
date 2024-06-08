@@ -56,10 +56,9 @@ public class LoginControlador implements Serializable {
             usuario = usuarioEJB.verificarUsuario(usuario);
             if (usuario == null) {
                 System.out.println("No existe ese usuario");
-                
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No existe este usuario"));   
             }
             else{
-                
                 System.out.println(usuario.toString());
             }
         } catch (Exception e) {

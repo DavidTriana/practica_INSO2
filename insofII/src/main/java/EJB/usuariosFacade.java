@@ -38,9 +38,7 @@ public class usuariosFacade extends AbstractFacade<usuarios> implements usuarios
         Query query = em.createQuery(consulta);
 
         query.setParameter("param1", usuario.getNombre());
-        System.out.println(usuario.getNombre());
         query.setParameter("param2", usuario.getContrasenia());
-        System.out.println(usuario.getContrasenia());
         
         List<usuarios> resultado = query.getResultList();
 
