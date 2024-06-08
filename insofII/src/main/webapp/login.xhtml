@@ -17,7 +17,7 @@
                 <p:password value="#{loginControlador.usuario.contrasenia}" required="true" requiredMessage="Contraseña es un campo obligatorio" id="txtContrasenia"/>
                 <p:message for="txtContrasenia" display="text"/>
             </p:panelGrid>
-            <p:commandButton id="submitButton" update="formLogin msgWarning" value="Iniciar sesión" actionListener="#{loginControlador.verificarUsuario()}"/>
+            <p:commandButton id="submitButton" update="formLogin msgWarning" value="Iniciar sesión" action="#{loginControlador.verificarUsuario()}"/>
             
             <p:messages id="msgWarning" severity="warn"  showSummary="true" showDetail="true"/>
             

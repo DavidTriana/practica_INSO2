@@ -49,22 +49,23 @@ public class LoginControlador implements Serializable {
         this.usuarioEJB = usuarioEJB;
     }
 
-    public void verificarUsuario() {
+    public String verificarUsuario() {
 
         //se verifica en facade si existe un usuario con ese nombre y contrasenia
         try {
             usuario = usuarioEJB.verificarUsuario(usuario);
             if (usuario == null) {
                 System.out.println("No existe ese usuario");
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No existe este usuario"));   
-            }
-            else{
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No existe este usuario"));
+            } else {
+                String navegacion = "privado/usuario/principalUsuario.xhtml?faces-redirect=true";
                 System.out.println(usuario.toString());
+                return navegacion;
             }
         } catch (Exception e) {
             System.out.println("Error al verificar el usuario " + e.getMessage());
         }
-
+        return null;
     }
 
 }
