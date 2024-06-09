@@ -13,11 +13,10 @@ import javax.inject.Named;
  *
  * @author david
  */
-
 @Named  //Indicar que la clase esta asociada con un EJB
 @ViewScoped //Indicar que solo existe mientras exista la vista asociada
-public class EnviosUsuarioControlador implements Serializable{
+public class ProductosGeneralControlador implements Serializable{
     
-    //meter usuario desde la variable global y desde ahi sacar la lista de envios
+    //obtener la lista de productos global, no relacionada con el usuario
     
 }
