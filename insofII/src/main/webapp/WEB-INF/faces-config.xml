@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
+              version="2.3">
+    
+    <navigation-rule>
+        <from-view-id>/registro.xhtml</from-view-id> <!-- Página desde la que se realiza la navegación -->
+        <navigation-case>
+            <from-outcome>success</from-outcome> <!-- Resultado del método que realiza el registro -->
+            <to-view-id>/login.xhtml</to-view-id> <!-- Página a la que se redirige después de un registro exitoso -->
+            <redirect/> <!-- Redirigir y limpiar la vista anterior -->
+        </navigation-case>
+    </navigation-rule>
+</faces-config>
