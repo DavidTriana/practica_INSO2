@@ -13,28 +13,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  *
- * @author gueps
+ * @author david
  */
-
-@Entity
-@Table(name="pedidos")
-
-public class pedidos implements Serializable{
- 
+public class carritos implements Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int idPedido;
     
     @Column(name="costeTotal")
-    private int costeTotal;
+    private Double costeTotal;
     
     @JoinColumn(name="idUsuario")
-    @ManyToOne
+    @OneToOne
     private usuarios usuario;
     
     @Column(name="productos")
@@ -48,11 +43,11 @@ public class pedidos implements Serializable{
         this.idPedido = idPedido;
     }
 
-    public int getCosteTotal() {
+    public Double getCosteTotal() {
         return costeTotal;
     }
 
-    public void setCosteTotal(int costeTotal) {
+    public void setCosteTotal(Double costeTotal) {
         this.costeTotal = costeTotal;
     }
 
@@ -63,8 +58,6 @@ public class pedidos implements Serializable{
     public void setUsuario(usuarios usuario) {
         this.usuario = usuario;
     }
-
-    
 
     public String getProductos() {
         return productos;
@@ -77,10 +70,10 @@ public class pedidos implements Serializable{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + this.idPedido;
-        hash = 29 * hash + this.costeTotal;
-        hash = 29 * hash + Objects.hashCode(this.usuario);
-        hash = 29 * hash + Objects.hashCode(this.productos);
+        hash = 71 * hash + this.idPedido;
+        hash = 71 * hash + Objects.hashCode(this.costeTotal);
+        hash = 71 * hash + Objects.hashCode(this.usuario);
+        hash = 71 * hash + Objects.hashCode(this.productos);
         return hash;
     }
 
@@ -95,7 +88,7 @@ public class pedidos implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final pedidos other = (pedidos) obj;
+        final carritos other = (carritos) obj;
         if (this.idPedido != other.idPedido) {
             return false;
         }
@@ -113,7 +106,7 @@ public class pedidos implements Serializable{
 
     @Override
     public String toString() {
-        return "pedidos{" + "idPedido=" + idPedido + ", costeTotal=" + costeTotal + ", usuario=" + usuario + ", productos=" + productos + '}';
+        return "carritos{" + "idPedido=" + idPedido + ", costeTotal=" + costeTotal + ", usuario=" + usuario + ", productos=" + productos + '}';
     }
     
 }

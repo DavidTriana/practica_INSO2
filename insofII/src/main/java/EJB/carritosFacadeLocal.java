@@ -7,26 +7,26 @@ package EJB;
 
 import java.util.List;
 import javax.ejb.Local;
-import modelo.pedidos;
+import modelo.carritos;
 
 /**
  *
  * @author gueps
  */
 @Local
-public interface pedidosFacadeLocal {
+public interface carritosFacadeLocal {
 
-    void create(pedidos pedidos);
+    void create(carritos carritos);
 
-    void edit(pedidos pedidos);
+    void edit(carritos carritos);
 
-    void remove(pedidos pedidos);
+    void remove(carritos carritos);
 
-    pedidos find(Object id);
+    carritos find(Object id);
 
-    List<pedidos> findAll();
+    List<carritos> findAll();
 
-    List<pedidos> findRange(int[] range);
+    List<carritos> findRange(int[] range);
 
     int count();
     

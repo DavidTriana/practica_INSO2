@@ -40,6 +40,12 @@ public class envios implements Serializable{
     @JoinColumn(name="idUsuario")
     @ManyToOne
     private usuarios usuario;
+    
+    @Column(name="precioTotal")
+    private Double precioTotal;
+    
+    @Column(name="productos")
+    private String productos;
 
     public int getIdEnvio() {
         return idEnvio;
@@ -81,14 +87,32 @@ public class envios implements Serializable{
         this.usuario = usuario;
     }
 
+    public Double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(Double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+
+    public String getProductos() {
+        return productos;
+    }
+
+    public void setProductos(String productos) {
+        this.productos = productos;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + this.idEnvio;
-        hash = 79 * hash + Objects.hashCode(this.fecha);
-        hash = 79 * hash + Objects.hashCode(this.hora);
-        hash = 79 * hash + Objects.hashCode(this.estado);
-        hash = 79 * hash + Objects.hashCode(this.usuario);
+        int hash = 3;
+        hash = 97 * hash + this.idEnvio;
+        hash = 97 * hash + Objects.hashCode(this.fecha);
+        hash = 97 * hash + Objects.hashCode(this.hora);
+        hash = 97 * hash + Objects.hashCode(this.estado);
+        hash = 97 * hash + Objects.hashCode(this.usuario);
+        hash = 97 * hash + Objects.hashCode(this.precioTotal);
+        hash = 97 * hash + Objects.hashCode(this.productos);
         return hash;
     }
 
@@ -116,7 +140,13 @@ public class envios implements Serializable{
         if (!Objects.equals(this.estado, other.estado)) {
             return false;
         }
+        if (!Objects.equals(this.productos, other.productos)) {
+            return false;
+        }
         if (!Objects.equals(this.usuario, other.usuario)) {
+            return false;
+        }
+        if (!Objects.equals(this.precioTotal, other.precioTotal)) {
             return false;
         }
         return true;
@@ -124,7 +154,7 @@ public class envios implements Serializable{
 
     @Override
     public String toString() {
-        return "envios{" + "idEnvio=" + idEnvio + ", fecha=" + fecha + ", hora=" + hora + ", estado=" + estado + ", usuario=" + usuario + '}';
+        return "envios{" + "idEnvio=" + idEnvio + ", fecha=" + fecha + ", hora=" + hora + ", estado=" + estado + ", usuario=" + usuario + ", precioTotal=" + precioTotal + ", productos=" + productos + '}';
     }
 
     
