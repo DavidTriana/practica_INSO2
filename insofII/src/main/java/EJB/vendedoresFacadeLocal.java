@@ -30,4 +30,6 @@ public interface vendedoresFacadeLocal {
 
     int count();
     
+    vendedores verificarVendedor(vendedores vendedor);
+    
 }

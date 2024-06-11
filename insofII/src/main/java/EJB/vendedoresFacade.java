@@ -5,9 +5,11 @@
  */
 package EJB;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import modelo.vendedores;
 
 /**
@@ -27,6 +29,23 @@ public class vendedoresFacade extends AbstractFacade<vendedores> implements vend
 
     public vendedoresFacade() {
         super(vendedores.class);
+    }
+    
+    @Override
+    public vendedores verificarVendedor(vendedores vendedor){
+        String consulta = "FROM vendedores u WHERE u.nombre=:param1 and u.contraseña=:param2";
+        Query query = em.createQuery(consulta);
+        
+        query.setParameter("param1", vendedor.getNombre());
+        query.setParameter("param2", vendedor.getContraseña());
+        
+        List<vendedores> resultado = query.getResultList();
+         if (!resultado.isEmpty()) {
+            return resultado.get(0);
+        } else {
+            return null;
+        }
+
     }
     
 }

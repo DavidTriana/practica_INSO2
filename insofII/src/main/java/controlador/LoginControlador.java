@@ -1,15 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador;
 
 import java.io.Serializable;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import modelo.usuarios;
+import modelo.vendedores;
 import EJB.usuariosFacadeLocal;
+import EJB.vendedoresFacadeLocal;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -19,18 +16,22 @@ import javax.faces.context.FacesContext;
  *
  * @author david
  */
-@Named  //Indicar que la clase esta asociada con un EJB
-@ViewScoped //Indicar que solo existe mientras exista la vista asociada
+@Named
+@ViewScoped
 public class LoginControlador implements Serializable {
 
     private usuarios usuario;
+    private vendedores vendedor;
 
-    @EJB    //una por cada objeto
+    @EJB
     private usuariosFacadeLocal usuarioEJB;
+    @EJB
+    private vendedoresFacadeLocal vendedorEJB;
 
-    @PostConstruct  //esto es lo primero que va a ocurrir
+    @PostConstruct
     public void init() {
-        usuario = new usuarios();   //reservar memoria para el usuario
+        usuario = new usuarios();
+        vendedor = new vendedores();
     }
 
     public usuarios getUsuario() {
@@ -49,23 +50,50 @@ public class LoginControlador implements Serializable {
         this.usuarioEJB = usuarioEJB;
     }
 
-    public String verificarUsuario() {
+    public vendedores getVendedor() {
+        return vendedor;
+    }
 
-        //se verifica en facade si existe un usuario con ese nombre y contrasenia
+    public void setVendedor(vendedores vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public vendedoresFacadeLocal getVendedorEJB() {
+        return vendedorEJB;
+    }
+
+    public void setVendedorEJB(vendedoresFacadeLocal vendedorEJB) {
+        this.vendedorEJB = vendedorEJB;
+    }
+
+    public String verificarUsuario() {
+        String navegacion = "";
         try {
-            usuario = usuarioEJB.verificarUsuario(usuario);
-            if (usuario == null) {
-                System.out.println("No existe ese usuario");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No existe este usuario"));
-            } else {
-                String navegacion = "privado/usuario/principalUsuario.xhtml?faces-redirect=true";
-                System.out.println(usuario.toString());
+            // Verificar si es un usuario
+            usuarios usuarioVerificado = usuarioEJB.verificarUsuario(usuario);
+            if (usuarioVerificado != null) {
+                navegacion = "privado/usuario/principalUsuario.xhtml?faces-redirect=true";
+                System.out.println(usuarioVerificado.toString());
                 return navegacion;
             }
+            
+            // Verificar si es un vendedor
+            vendedores vendedorVerificado = new vendedores();
+            vendedorVerificado.setNombre(usuario.getNombre());
+            vendedorVerificado.setContraseña(usuario.getContrasenia());
+            vendedorVerificado = vendedorEJB.verificarVendedor(vendedorVerificado);
+            if (vendedorVerificado != null) {
+                navegacion = "privado/vendedor/principalVendedor.xhtml?faces-redirect=true";
+                System.out.println(vendedorVerificado.toString());
+                return navegacion;
+            }
+
+            // Si no es ni usuario ni vendedor
+            System.out.println("No existe ese usuario o vendedor");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No existe este usuario o vendedor"));
         } catch (Exception e) {
             System.out.println("Error al verificar el usuario " + e.getMessage());
         }
         return null;
     }
-
 }
