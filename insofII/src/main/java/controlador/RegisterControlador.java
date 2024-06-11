@@ -36,16 +36,16 @@ public class RegisterControlador implements Serializable{
     @EJB
     private vendedoresFacadeLocal vendedorFacadeLocal;
     
-    public void registrarUsuario(){
+    public String registrarUsuario(){
+        String nav = "login.xhtml?faces-redirect=true";
         if(tipoUsuario.equals("normal")){
             usuarioFacadeLocal.create(usuario);
             usuario = new usuarios();
-            FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "success");
         }else if(tipoUsuario.equals("vendedor")){
             vendedorFacadeLocal.create(vendedor);
             vendedor = new vendedores();
-            FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "success");
         }
+        return nav;
     }
     
     /*Getters y setters de tipoUsuario, usuario y vendedor*/

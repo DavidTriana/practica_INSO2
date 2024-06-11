@@ -72,7 +72,12 @@
                     </p:panelGrid>
                     <p:commandButton id="submitButtonVendedor" update="gridVendedor" value="Insertar" action="#{registerControlador.registrarUsuario()}"/>
                 </p:panel>
+
             </h:panelGroup>
+            <div class="register-link">
+                <h:outputText value="¿Ya tienes cuenta?"/>
+                <a href="faces/login.xhtml" class="button-link">Iniciar sesión</a>
+            </div>
         </h:form>
     </h:body>
 </html>
