@@ -69,28 +69,30 @@ public class LoginControlador implements Serializable {
     public String verificarUsuario() {
         String navegacion = "";
         try {
-            // Verificar si es un usuario
+            //Verificar si es usuario
             usuarios usuarioVerificado = usuarioEJB.verificarUsuario(usuario);
             if (usuarioVerificado != null) {
-                navegacion = "privado/usuario/principalUsuario.xhtml?faces-redirect=true";
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuarioVerificado);
                 System.out.println(usuarioVerificado.toString());
-                return navegacion;
+                navegacion = "privado/usuario/principalUsuario.xhtml?faces-redirect=true";
+            } else {
+                //Si no es usuario, Verificar si es un vendedor
+                vendedores vendedorVerificado = new vendedores();
+                vendedorVerificado.setNombre(usuario.getNombre());
+                vendedorVerificado.setContraseña(usuario.getContrasenia());
+                vendedorVerificado = vendedorEJB.verificarVendedor(vendedorVerificado);
+                if (vendedorVerificado != null) {
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("vendedor", vendedorVerificado);
+                    System.out.println(vendedorVerificado.toString());
+                    navegacion = "privado/vendedor/principalVendedor.xhtml?faces-redirect=true";
+                } else {
+                    // Si no es ni usuario ni vendedor
+                    System.out.println("No existe ese usuario o vendedor");
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No existe este usuario o vendedor"));
+                    return null;
+                }
             }
-            
-            // Verificar si es un vendedor
-            vendedores vendedorVerificado = new vendedores();
-            vendedorVerificado.setNombre(usuario.getNombre());
-            vendedorVerificado.setContraseña(usuario.getContrasenia());
-            vendedorVerificado = vendedorEJB.verificarVendedor(vendedorVerificado);
-            if (vendedorVerificado != null) {
-                navegacion = "privado/vendedor/principalVendedor.xhtml?faces-redirect=true";
-                System.out.println(vendedorVerificado.toString());
-                return navegacion;
-            }
-
-            // Si no es ni usuario ni vendedor
-            System.out.println("No existe ese usuario o vendedor");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No existe este usuario o vendedor"));
+            return navegacion;
         } catch (Exception e) {
             System.out.println("Error al verificar el usuario " + e.getMessage());
         }
