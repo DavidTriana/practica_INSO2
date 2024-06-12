@@ -82,7 +82,7 @@ public class LoginControlador implements Serializable {
                 vendedorVerificado.setContraseña(usuario.getContrasenia());
                 vendedorVerificado = vendedorEJB.verificarVendedor(vendedorVerificado);
                 if (vendedorVerificado != null) {
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("vendedor", vendedorVerificado);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", vendedorVerificado);
                     System.out.println(vendedorVerificado.toString());
                     navegacion = "privado/vendedor/principalVendedor.xhtml?faces-redirect=true";
                 } else {
