@@ -9,6 +9,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import modelo.productos;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -27,6 +29,11 @@ public class productosFacade extends AbstractFacade<productos> implements produc
 
     public productosFacade() {
         super(productos.class);
+    }
+    
+    public void guardarProducto(productos producto) {
+        
+        System.out.println("se va a guardar el producto "+ producto.getNombre());
     }
     
 }
