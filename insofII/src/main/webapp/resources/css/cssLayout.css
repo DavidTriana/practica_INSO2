@@ -58,4 +58,21 @@
   text-decoration : underline;
 }
 
+.footer-content {
+    text-align: center;
+    margin: 20px auto; /* Ajusta el margen según tus preferencias */
+}
+
+.enlaces-legales {
+    list-style-type: none;
+    padding: 0;
+}
+
+.enlaces-legales li {
+    display: inline;
+    margin-right: 10px; /* Espacio entre los elementos de la lista */
+}
+
+
+
 
