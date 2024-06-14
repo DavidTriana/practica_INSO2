@@ -28,6 +28,15 @@ public class vendedorControlador implements Serializable{
     private vendedores vendedor;
     private List<productos> productos;
     private productos nuevoProducto;
+    private productos productoSeleccionado;
+
+    public productos getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(productos productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
+    }
     
     
     @EJB
@@ -109,4 +118,9 @@ public class vendedorControlador implements Serializable{
         nuevoProducto = new productos();
     }
     
+    public void eliminarProducto(){
+    
+        System.out.println("se va a eliminar un producto");
+    
+    }
 }

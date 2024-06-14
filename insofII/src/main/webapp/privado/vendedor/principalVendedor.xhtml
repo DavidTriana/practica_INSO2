@@ -13,7 +13,7 @@
                          selection="#{vendedorControlador.productoSeleccionado}" 
                          selectionMode="single" rowKey="#{producto.id}" 
                          emptyMessage="No has publicado ningún producto">
-                <p:ajax event="rowSelect" listener="#{vendedorControlador.onProductoSelect}" update=":formProductoDialog" oncomplete="PF('productoDialog').show();" />
+                <p:ajax event="rowSelect" update=":formProductos:formProductoDialog" oncomplete="PF('productoDialog').show();" />
                 <p:column headerText="ID">
                     <h:outputText value="#{producto.id}" />
                 </p:column>
@@ -28,6 +28,26 @@
                 </p:column>
             </p:dataTable>
             <p:commandButton value="Crear Nuevo Producto" icon="pi pi-plus" oncomplete="PF('dlgNuevoProducto').show();" update=":formProductos:tablaProductos"/>
+
+            <p:dialog header="Información del Producto" widgetVar="productoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="formProductoDialog">
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="ID:" />
+                        <h:outputText value="#{vendedorControlador.productoSeleccionado.id}" />
+                        
+                        <h:outputLabel value="Nombre:" />
+                        <h:outputText value="#{vendedorControlador.productoSeleccionado.nombre}" />
+                        
+                        <h:outputLabel value="Descripción:" />
+                        <h:outputText value="#{vendedorControlador.productoSeleccionado.descripcion}" />
+                        
+                        <h:outputLabel value="Precio:" />
+                        <h:outputText value="#{vendedorControlador.productoSeleccionado.precio}" />
+                        
+                        <p:commandButton value="Eliminar" action="#{vendedorControlador.eliminarProducto}" update=":formProductos:tablaProductos" oncomplete="PF('productoDialog').hide();" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
         </h:form>
 
         <p:dialog header="Nuevo Producto" widgetVar="dlgNuevoProducto" modal="true" resizable="false" id="dialogNuevoProducto">
