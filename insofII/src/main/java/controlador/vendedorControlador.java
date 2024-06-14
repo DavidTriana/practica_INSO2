@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import modelo.vendedores;
@@ -112,7 +113,10 @@ public class vendedorControlador implements Serializable{
     
         System.out.println("SE VA A GUARDAR UN PRODUCTO NUEVO: "+ nuevoProducto.getNombre());
         
+        vendedor = (vendedores) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         
+        System.out.println("EL ID DEL VENDEDOR ES "+ vendedor.getIdVendedor());
+
         //TODO logica de guardado del nuevo producto    
         
         nuevoProducto = new productos();
