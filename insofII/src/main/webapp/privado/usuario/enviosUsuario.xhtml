@@ -12,7 +12,27 @@
         </ui:define>
 
         <ui:define name="top">
-            <h1>Mis Productos</h1>
+            <div class="top-content">
+                    <div class="top-left">
+                        <p>Bienvenido, #{usuarioControlador.usuario.nombre}</p>
+                    </div>
+                    <div class="top-center">
+                        <h:form>
+                            <p:commandLink action="#{usuarioControlador.irPedidosUsuario()}" value="Mis Pedidos" />
+                        </h:form>
+                        <h:form>
+                            <p:commandLink action="#{usuarioControlador.irProductos()}" value="Ver Productos" />
+                        </h:form>
+                        <h:form>
+                            <p:commandLink action="#{usuarioControlador.irPrincipal()}" value="Principal" />
+                        </h:form>
+                    </div>
+                    <div class="top-right">
+                        <h:form>
+                            <p:commandButton value="Carrito" icon="pi pi-cart-arrow-down" action="#{usuarioControlador.irCarrito()}"/>
+                        </h:form>
+                    </div>
+                </div>
         </ui:define>
 
         <ui:define name="content">
