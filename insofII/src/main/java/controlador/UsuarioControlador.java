@@ -72,5 +72,21 @@ public class UsuarioControlador implements Serializable {
     public void setUsuarioEJB(usuariosFacadeLocal usuarioEJB) {
         this.usuarioEJB = usuarioEJB;
     }
+    
+    public String irCarrito(){
+        return "carritoUsuario.xhtml?faces-redirect=true";
+    }
+    
+    public String irProductos(){
+        return "productosGeneral.xhtml?faces-redirect=true";
+    }
+    
+    public String irPedidosUsuario(){
+        return "pedidosUsuario.xhtml?faces-redirect=true";
+    }
+    
+     public String irPrincipal(){
+        return "principalUsuario.xhtml?faces-redirect=true";
+    }
 
 }

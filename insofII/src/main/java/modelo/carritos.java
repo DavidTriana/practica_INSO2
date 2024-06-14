@@ -20,6 +20,8 @@ import javax.persistence.Table;
  *
  * @author david
  */
+@Entity
+@Table(name="pedidos")
 public class carritos implements Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

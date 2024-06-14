@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/template/plantillaBase.xhtml">
+
+            <ui:define name="top">
+               <div class="top-content">
+                    <div class="top-left">
+                        <p>Bienvenido, #{usuarioControlador.usuario.nombre}</p>
+                    </div>
+                    <div class="top-center">
+                        <h:form>
+                            <p:commandLink action="#{usuarioControlador.irPedidosUsuario()}" value="Mis Pedidos" />
+                        </h:form>
+                        <h:form>
+                            <p:commandLink action="#{usuarioControlador.irProductos()}" value="Ver Productos" />
+                        </h:form>
+                        <h:form>
+                            <p:commandLink action="#{usuarioControlador.irPrincipal()}" value="Principal" />
+                        </h:form>
+                    </div>
+                    <div class="top-right">
+                        <h:form>
+                            <p:commandButton value="Carrito" icon="pi pi-cart-arrow-down" action="#{usuarioControlador.irCarrito()}"/>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+            <ui:define name="content">
+                content
+            </ui:define>
+
+            <ui:define name="bottom">
+               <div class="footer-content">
+                    <p>Contáctenos: <br/>
+                        Dirección: Calle Ejemplo, Ciudad, País <br/>
+                        Teléfono: +123456789 <br/>
+                        Correo electrónico: parctInso2@gmail.com</p>
+                    <p>Envíos: Gratis para compras superiores a 3 pesos </p>
+                    <ul class="enlaces-legales">
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos de Uso</a></li>
+                        <li><a href="#">Políticas de Devolución</a></li>
+                    </ul>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
