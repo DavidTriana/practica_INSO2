@@ -49,7 +49,7 @@ public class productos implements Serializable{
     @Column(name="valoraciones")
     private int valoraciones;
     
-    @JoinColumn(name="idVendedor")
+    @JoinColumn(name="vendedores", referencedColumnName="idVendedor")
     @ManyToOne
     private vendedores vendedores;
 
