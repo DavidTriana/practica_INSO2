@@ -27,6 +27,10 @@ public class ProductosGeneralControlador implements Serializable {
 
     private List<productos> listaProductos;
 
+    private List<productos> filteredProductos;
+    
+    private boolean globalFilterOnly;
+
     //obtener la lista de productos global, no relacionada con el usuario
     @PostConstruct
     public void init() {
@@ -37,7 +41,7 @@ public class ProductosGeneralControlador implements Serializable {
         }
     }
 
-public List<productos> getListaProductos() {
+    public List<productos> getListaProductos() {
         return listaProductos;
     }
 
@@ -45,9 +49,29 @@ public List<productos> getListaProductos() {
         return productoEJB;
     }
 
-    public void setProductoEJB(productosFacadeLocal productoEJB) {
-        this.productoEJB = productoEJB;
+    public List<productos> getFilteredProductos() {
+        return filteredProductos;
+    }
+
+    public void setFilteredProductos(List<productos> filteredProductos) {
+        this.filteredProductos = filteredProductos;
     }
 
     
+    public void setProductoEJB(productosFacadeLocal productoEJB) {
+        this.productoEJB = productoEJB;
+    }
+    
+     public boolean isGlobalFilterOnly() {
+        return globalFilterOnly;
+    }
+
+    public void setGlobalFilterOnly(boolean globalFilterOnly) {
+        this.globalFilterOnly = globalFilterOnly;
+    }
+
+    public void toggleGlobalFilter() {
+        globalFilterOnly = !globalFilterOnly;
+    }
+
 }

@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../WEB-INF/template/plantillaBase.xhtml">
 
@@ -16,31 +17,49 @@
         </ui:define>
 
         <ui:define name="content">
-            <h:form>
-                <p:dataTable value="#{productosGeneralControlador.listaProductos}" var="producto" paginator="true" rows="10" rowKey="#{producto.nombre}">
+            <h:form id="productForm">
+                <p:dataTable var="producto" value="#{productosGeneralControlador.listaProductos}" widgetVar="productosTable"
+                             emptyMessage="No products found with given criteria"
+                             filteredValue="#{productosGeneralControlador.filteredProductos}" paginator="true" rows="10">
 
-                    <p:column headerText="Nombre">
+                    <f:facet name="header">
+                        <div class="flex align-items-center justify-content-between">
+                            <span>Lista de Productos</span>
+                            <div>
+                                <p:inputText id="globalFilter" onkeyup="PF('productosTable').filter()" style="width:10rem"
+                                             placeholder="Enter keyword" />
+                                <p:commandButton value="Global Filter Only" update="@form" styleClass="ml-2"
+                                                 action="#{productosGeneralControlador.toggleGlobalFilter()}"/>
+                            </div>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="Nombre" sortBy="#{producto.nombre}" filterBy="#{producto.nombre}" filterMatchMode="contains">
                         <h:outputText value="#{producto.nombre}" />
                     </p:column>
 
-                    <p:column headerText="Marca">
+                    <p:column headerText="Marca" sortBy="#{producto.marca}" filterBy="#{producto.marca}">
                         <h:outputText value="#{producto.marca}" />
                     </p:column>
 
-                    <p:column headerText="Categoría">
+                    <p:column headerText="Categoría" sortBy="#{producto.categoria}" filterBy="#{producto.categoria}">
                         <h:outputText value="#{producto.categoria}" />
                     </p:column>
 
-                    <p:column headerText="Descripción">
+                    <p:column headerText="Descripción" sortBy="#{producto.descripcion}" filterBy="#{producto.descripcion}">
                         <h:outputText value="#{producto.descripcion}" />
                     </p:column>
 
-                    <p:column headerText="Precio">
+                    <p:column headerText="Precio" sortBy="#{producto.precio}" filterBy="#{producto.precio}">
                         <h:outputText value="#{producto.precio}" />
                     </p:column>
 
-                    <p:column headerText="Cantidad">
+                    <p:column headerText="Cantidad" sortBy="#{producto.cantidad}" filterBy="#{producto.cantidad}">
                         <h:outputText value="#{producto.cantidad}" />
+                    </p:column>
+
+                    <p:column headerText="Vendedor" sortBy="#{producto.vendedores.nombre}" filterBy="#{producto.vendedores.nombre}">
+                        <h:outputText value="#{producto.vendedores.nombre}" />
                     </p:column>
 
                 </p:dataTable>
