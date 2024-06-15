@@ -20,19 +20,24 @@
             <h:form id="productForm">
                 <p:dataTable var="producto" value="#{productosGeneralControlador.listaProductos}" widgetVar="productosTable"
                              emptyMessage="No existen productos con estas especificaciones"
-                             filteredValue="#{productosGeneralControlador.filteredProductos}" paginator="true" rows="10">
+                             filteredValue="#{productosGeneralControlador.filteredProductos}" paginator="true" rows="10"
+                             selectionMode="single" selection="#{productosGeneralControlador.productoSeleccionado}" rowKey="#{producto.idProducto}">
+
+                    <p:ajax event="rowSelect" oncomplete="PF('dlgProducto').show();" update=":productForm:dialogProducto"/>
 
                     <f:facet name="header">
                         <div class="flex align-items-center justify-content-between">
                             <span>Buscar productos</span>
                             <div>
-                                <p:inputText id="globalFilter" onkeyup="PF('productosTable').filter()" style="width:10rem"
+                                <p:inputText id="globalFilter" onkeyup="PF('productosTable').filter()" style="width:20rem"
                                              placeholder="Introduce busqueda" />
                                 <p:commandButton value="Buscar" update="@form" styleClass="ml-2"
                                                  action="#{productosGeneralControlador.toggleGlobalFilter()}"/>
                             </div>
                         </div>
                     </f:facet>
+
+
 
                     <p:column headerText="Nombre" sortBy="#{producto.nombre}" filterBy="#{producto.nombre}" filterMatchMode="contains">
                         <h:outputText value="#{producto.nombre}" />
@@ -63,8 +68,42 @@
                     </p:column>
 
                 </p:dataTable>
+
+                <p:dialog header="Información del Producto" widgetVar="dlgProducto" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="dialogProducto">
+                    <h:form id="formProducto">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="ID:" />
+                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.idProducto}" />
+
+                            <h:outputLabel value="Nombre:" />
+                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.nombre}" />
+
+                            <h:outputLabel value="Marca:" />
+                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.marca}" />
+
+                            <h:outputLabel value="Descripción:" />
+                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.descripcion}" />
+
+                            <h:outputLabel value="Precio:" />
+                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.precio}" />
+
+                            <h:outputLabel value="Cantidad:" />
+                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.cantidad}" />
+
+                            <h:outputLabel value="Valoraciones:" />
+                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.valoraciones}" />
+
+                            <h:outputLabel value="Vendedor:" />
+                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.vendedores.nombre}" />
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
             </h:form>
         </ui:define>
+
+
+
+
 
         <ui:define name="bottom">
             <h:outputText value="Vista de productos. Informacion extra" />

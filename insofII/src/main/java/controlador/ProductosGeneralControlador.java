@@ -29,6 +29,8 @@ public class ProductosGeneralControlador implements Serializable {
 
     private List<productos> filteredProductos;
     
+    private productos productoSeleccionado;
+    
     private boolean globalFilterOnly;
 
     //obtener la lista de productos global, no relacionada con el usuario
@@ -72,6 +74,14 @@ public class ProductosGeneralControlador implements Serializable {
 
     public void toggleGlobalFilter() {
         globalFilterOnly = !globalFilterOnly;
+    }
+    
+    public productos getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(productos productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
     }
 
 }
