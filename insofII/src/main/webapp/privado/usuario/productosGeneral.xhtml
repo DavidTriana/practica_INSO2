@@ -17,14 +17,18 @@
 
         <ui:define name="content">
             <h:form>
-                <p:dataTable value="#{productoBean.listaProductos}" var="producto" paginator="true" rows="10" rowKey="#{producto.nombre}">
-                    
+                <p:dataTable value="#{productosGeneralControlador.listaProductos}" var="producto" paginator="true" rows="10" rowKey="#{producto.nombre}">
+
                     <p:column headerText="Nombre">
                         <h:outputText value="#{producto.nombre}" />
                     </p:column>
 
                     <p:column headerText="Marca">
                         <h:outputText value="#{producto.marca}" />
+                    </p:column>
+
+                    <p:column headerText="Categoría">
+                        <h:outputText value="#{producto.categoria}" />
                     </p:column>
 
                     <p:column headerText="Descripción">
@@ -35,17 +39,9 @@
                         <h:outputText value="#{producto.precio}" />
                     </p:column>
 
-                    <p:column headerText="Valoración">
-                        <h:outputText value="#{producto.valoracion}" />
+                    <p:column headerText="Cantidad">
+                        <h:outputText value="#{producto.cantidad}" />
                     </p:column>
-
-                    <p:rowExpansion>
-                        <p:dataTable value="#{producto.vendedores}" var="vendedor" rows="5">
-                            <p:column headerText="Vendedor">
-                                <h:outputText value="#{vendedor.nombre}" />
-                            </p:column>
-                        </p:dataTable>
-                    </p:rowExpansion>
 
                 </p:dataTable>
             </h:form>
