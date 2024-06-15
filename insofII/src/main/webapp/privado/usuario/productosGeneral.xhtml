@@ -19,16 +19,16 @@
         <ui:define name="content">
             <h:form id="productForm">
                 <p:dataTable var="producto" value="#{productosGeneralControlador.listaProductos}" widgetVar="productosTable"
-                             emptyMessage="No products found with given criteria"
+                             emptyMessage="No existen productos con estas especificaciones"
                              filteredValue="#{productosGeneralControlador.filteredProductos}" paginator="true" rows="10">
 
                     <f:facet name="header">
                         <div class="flex align-items-center justify-content-between">
-                            <span>Lista de Productos</span>
+                            <span>Buscar productos</span>
                             <div>
                                 <p:inputText id="globalFilter" onkeyup="PF('productosTable').filter()" style="width:10rem"
-                                             placeholder="Enter keyword" />
-                                <p:commandButton value="Global Filter Only" update="@form" styleClass="ml-2"
+                                             placeholder="Introduce busqueda" />
+                                <p:commandButton value="Buscar" update="@form" styleClass="ml-2"
                                                  action="#{productosGeneralControlador.toggleGlobalFilter()}"/>
                             </div>
                         </div>
