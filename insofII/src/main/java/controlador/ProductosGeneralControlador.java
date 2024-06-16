@@ -6,6 +6,7 @@
 package controlador;
 
 import EJB.productosFacadeLocal;
+import EJB.valoracionesFacadeLocal;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -13,6 +14,8 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import modelo.productos;
+import modelo.valoraciones;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -25,13 +28,18 @@ public class ProductosGeneralControlador implements Serializable {
     @EJB
     private productosFacadeLocal productoEJB;
 
+    @EJB
+    private valoracionesFacadeLocal valoracionesEJB;
+
     private List<productos> listaProductos;
 
     private List<productos> filteredProductos;
-    
-    private productos productoSeleccionado;
-    
+
     private boolean globalFilterOnly;
+
+    private productos productoSeleccionado;
+
+    private List<valoraciones> valoracionesProductoSeleccionado;
 
     //obtener la lista de productos global, no relacionada con el usuario
     @PostConstruct
@@ -39,7 +47,7 @@ public class ProductosGeneralControlador implements Serializable {
         try {
             listaProductos = productoEJB.findAll();
         } catch (Exception e) {
-            e.printStackTrace(); // Imprime la excepción en el log
+            System.out.println("Error al cargar los productos: " + e.getMessage());
         }
     }
 
@@ -59,12 +67,11 @@ public class ProductosGeneralControlador implements Serializable {
         this.filteredProductos = filteredProductos;
     }
 
-    
     public void setProductoEJB(productosFacadeLocal productoEJB) {
         this.productoEJB = productoEJB;
     }
-    
-     public boolean isGlobalFilterOnly() {
+
+    public boolean isGlobalFilterOnly() {
         return globalFilterOnly;
     }
 
@@ -75,7 +82,7 @@ public class ProductosGeneralControlador implements Serializable {
     public void toggleGlobalFilter() {
         globalFilterOnly = !globalFilterOnly;
     }
-    
+
     public productos getProductoSeleccionado() {
         return productoSeleccionado;
     }
@@ -84,4 +91,24 @@ public class ProductosGeneralControlador implements Serializable {
         this.productoSeleccionado = productoSeleccionado;
     }
 
+    public List<valoraciones> getValoracionesProductoSeleccionado() {
+        return valoracionesProductoSeleccionado;
+    }
+
+    public void setValoracionesProductoSeleccionado(List<valoraciones> valoracionesProductoSeleccionado) {
+        this.valoracionesProductoSeleccionado = valoracionesProductoSeleccionado;
+    }
+
+    public void onRowSelect(SelectEvent event) {
+
+        productoSeleccionado = (productos) event.getObject();
+        List<valoraciones> aux = valoracionesEJB.findByProducto(productoSeleccionado);
+        if (aux != null) {
+            valoracionesProductoSeleccionado = aux;
+        }
+        else{
+            valoracionesProductoSeleccionado.clear();
+        }
+
+    }
 }

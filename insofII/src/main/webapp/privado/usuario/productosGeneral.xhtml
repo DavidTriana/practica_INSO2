@@ -23,7 +23,7 @@
                              filteredValue="#{productosGeneralControlador.filteredProductos}" paginator="true" rows="10"
                              selectionMode="single" selection="#{productosGeneralControlador.productoSeleccionado}" rowKey="#{producto.idProducto}">
 
-                    <p:ajax event="rowSelect" oncomplete="PF('dlgProducto').show();" update=":productForm:dialogProducto"/>
+                    <p:ajax event="rowSelect" oncomplete="PF('dlgProducto').show();" update=":productForm" listener="#{productosGeneralControlador.onRowSelect}" />
 
                     <f:facet name="header">
                         <div class="flex align-items-center justify-content-between">
@@ -90,20 +90,38 @@
                             <h:outputLabel value="Cantidad:" />
                             <h:outputText value="#{productosGeneralControlador.productoSeleccionado.cantidad}" />
 
-                            <h:outputLabel value="Valoraciones:" />
-                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.valoraciones}" />
-
                             <h:outputLabel value="Vendedor:" />
                             <h:outputText value="#{productosGeneralControlador.productoSeleccionado.vendedores.nombre}" />
+
+                            <h:outputLabel value="Valoraciones:" />
+                            <p:dataTable var="valoracion" value="#{productosGeneralControlador.valoracionesProductoSeleccionado}" widgetVar="valoracionTable"
+                                         emptyMessage="Este producto aun no tiene valoraciones"
+                                         paginator="true" rows="10"
+                                         >
+
+                                <p:column headerText="Usuario">
+                                    <h:outputText value="#{valoracion.idUsuario.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Fecha y Hora">
+                                    <h:outputText value="#{valoracion.fecha} #{valoracion.hora}"/>
+                                </p:column>
+                                
+                                <p:column headerText="Puntuación">
+                                    <h:outputText  value="#{valoracion.valoracion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Texto">
+                                    <h:outputText  value="#{valoracion.descripcion}"  />
+                                </p:column>
+                                
+                            </p:dataTable>
+
                         </h:panelGrid>
                     </h:form>
                 </p:dialog>
             </h:form>
         </ui:define>
-
-
-
-
 
         <ui:define name="bottom">
             <h:outputText value="Vista de productos. Informacion extra" />

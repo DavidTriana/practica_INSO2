@@ -5,9 +5,13 @@
  */
 package EJB;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import modelo.productos;
+import modelo.usuarios;
 import modelo.valoraciones;
 
 /**
@@ -28,5 +32,22 @@ public class valoracionesFacade extends AbstractFacade<valoraciones> implements 
     public valoracionesFacade() {
         super(valoraciones.class);
     }
-    
+
+    @Override
+    public List<valoraciones> findByProducto(productos producto) {
+        String consulta = "SELECT v FROM valoraciones v WHERE v.idProducto = :productos";
+
+        Query query = em.createQuery(consulta);
+
+        query.setParameter("productos", producto);
+
+        List<valoraciones> resultado = query.getResultList();
+
+        if (!resultado.isEmpty()) {
+            return resultado;
+        } else {
+            return null;
+        }
+    }
+
 }

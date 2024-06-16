@@ -40,11 +40,11 @@ public class valoraciones implements Serializable{
     @Column(name="hora")
     private String hora;
     
-    @JoinColumn(name="idUsuario")
+    @JoinColumn(name="idUsuario" , referencedColumnName="idUsuario")
     @ManyToOne
     private usuarios idUsuario;
     
-    @JoinColumn(name="idProducto")
+    @JoinColumn(name="idProducto" , referencedColumnName="idProducto")
     @ManyToOne
     private productos idProducto;
 
