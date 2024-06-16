@@ -67,6 +67,16 @@ public class carritoControlador implements Serializable {
             }
         }
     }
+    
+    
+    public String eliminarCarrito(){
+        usuarios user = usuarioControlador.getUsuario();
+        if( user != null){
+            carritosFacade.removeCarritoByUsuario(user);
+        return "carritoUsuario.xhtml?faces-redirect=true";
+        }
+        return "";
+    }
 
     /* Getters y setters */
     public carritos getCarrito() {

@@ -49,10 +49,17 @@
                             <h:outputText value="#{producto.precio}" />
                         </h:column>
                     </h:dataTable>
+                    <h:form>
+                        <p:commandButton value="Eliminar Carrito" icon="pi pi-trash"
+                                         action="#{carritoControlador.eliminarCarrito()}"
+                                         ajax="false" />
+                    </h:form>
+
                 </h:panelGroup>
                 <h:panelGroup rendered="#{carritoControlador.carrito == null}">
                     <h:outputText value="El carrito está vacío." />
                 </h:panelGroup>
+
             </ui:define>
 
             <ui:define name="bottom">

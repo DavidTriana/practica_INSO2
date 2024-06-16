@@ -33,4 +33,5 @@ public interface carritosFacadeLocal {
     
     carritos findCarritoByUsuario(usuarios usuario);
     
+    void removeCarritoByUsuario(usuarios usuario);
 }

@@ -41,4 +41,12 @@ public class carritosFacade extends AbstractFacade<carritos> implements carritos
         }
     }
     
+    @Override
+    public void removeCarritoByUsuario(usuarios usuario){
+        carritos carrito = findCarritoByUsuario(usuario);
+        if(carrito != null){
+            em.remove(carrito);
+        }
+    }
+    
 }
