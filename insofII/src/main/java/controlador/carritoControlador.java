@@ -15,6 +15,11 @@ import modelo.carritos;
 import modelo.productos;
 import modelo.usuarios;
 import EJB.carritosFacadeLocal;
+import EJB.productosFacadeLocal;
+import EJB.usuariosFacadeLocal;
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
  
 /**
  *
@@ -22,26 +27,57 @@ import EJB.carritosFacadeLocal;
  */
 
 @Named
-@SessionScoped
+@ViewScoped
 
 public class carritoControlador implements Serializable{
     
     @EJB
-    private carritosFacadeLocal carritoFacade;
-    private carritos carritoActual;
+    private carritosFacadeLocal carritosFacade;
+    
+    @EJB
+    private usuariosFacadeLocal usuariosFacade;
+    
+    @EJB
+    private productosFacadeLocal productosFacade;
+    
+    @Inject
+    private UsuarioControlador usuarioControlador;
+    
+    private carritos carrito;
+    private List<productos> productosList;
+    
+    
     
     public carritoControlador(){
         
     }
     
-    public carritos getCarritoActual(){
-        return carritoActual;
-    }
-    
-    public void setCarritoActual(carritos carritoActual){
-        this.carritoActual = carritoActual;
-    }
-    
     // Método para inicializar el carrito actual del usuario
+   @PostConstruct
+   public void init(){
+       usuarios user = usuarioControlador.getUsuario();
+       System.out.println("usuario en la sesion: " + user);
+       if(user != null){
+           carrito = carritosFacade.findCarritoByUsuario(user);
+           
+           if(carrito != null){
+               String[] productosIds = carrito.getProductos().split(",");
+               productosList = new ArrayList<>();
+               for(String productoId : productosIds){
+                   productos product = productosFacade.find(Integer.parseInt(productoId));
+                   productosList.add(product);
+               }
+           }
+       }
+   }
    
+   /* Getters y setters */
+   
+   public carritos getCarrito(){
+       return carrito;
+   }
+   
+   public List<productos> getProductList(){
+       return productosList;
+   }
 }

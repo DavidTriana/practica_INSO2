@@ -8,6 +8,7 @@ package EJB;
 import java.util.List;
 import javax.ejb.Local;
 import modelo.carritos;
+import modelo.usuarios;
 
 /**
  *
@@ -29,5 +30,7 @@ public interface carritosFacadeLocal {
     List<carritos> findRange(int[] range);
 
     int count();
+    
+    carritos findCarritoByUsuario(usuarios usuario);
     
 }
