@@ -69,5 +69,19 @@
                 <p:commandButton value="Cancelar" onclick="PF('dlgNuevoProducto').hide();" type="button" />
             </h:form>
         </p:dialog>
+        
+        <h:form id="formVentas">
+        <p:dataTable id="ventasTable" var="venta" value="#{vendedorControlador.ventas}" scrollable="true" scrollHeight="200">
+            <p:column headerText="Producto">
+                <h:outputText value="#{venta.producto.nombre}" />
+            </p:column>
+            <p:column headerText="Cantidad de Ventas">
+                <h:outputText value="#{venta.cantidadVentas}" />
+            </p:column>
+            <p:column headerText="Total de Beneficio">
+                <h:outputText value="#{venta.totalBeneficio}" />
+            </p:column>
+        </p:dataTable>
+        </h:form>
     </h:body>
 </html>

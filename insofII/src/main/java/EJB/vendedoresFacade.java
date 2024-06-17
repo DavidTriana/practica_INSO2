@@ -11,6 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import modelo.vendedores;
+import modelo.productos;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -46,6 +49,20 @@ public class vendedoresFacade extends AbstractFacade<vendedores> implements vend
             return null;
         }
 
+    }
+    
+    public List<productos> obtenerProductosVendedor(vendedores vendedor) {
+            
+        String consulta = "FROM productos p WHERE p.vendedores=:param1";
+
+        Query query = em.createQuery(consulta);
+
+        query.setParameter("param1", vendedor.getIdVendedor());
+        
+        List<productos> listaProductos = query.getResultList();
+
+        
+        return listaProductos;
     }
     
 }

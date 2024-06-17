@@ -115,8 +115,7 @@ public class vendedorControlador implements Serializable{
         
         vendedor = (vendedores) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         
-        System.out.println("EL ID DEL VENDEDOR ES "+ vendedor.getIdVendedor());
-
+        nuevoProducto.setVendedores(vendedor.getIdVendedor());
         //TODO logica de guardado del nuevo producto    
         
         nuevoProducto = new productos();
