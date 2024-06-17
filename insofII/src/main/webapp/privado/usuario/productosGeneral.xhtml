@@ -56,7 +56,9 @@
                     </p:column>
 
                     <p:column headerText="Precio" sortBy="#{producto.precio}" filterBy="#{producto.precio}">
-                        <h:outputText value="#{producto.precio}" />
+                        <h:outputText value="#{producto.precio}" >
+                            <f:convertNumber currencySymbol="€" type="currency"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Cantidad" sortBy="#{producto.cantidad}" filterBy="#{producto.cantidad}">
@@ -69,57 +71,65 @@
 
                 </p:dataTable>
 
-                <p:dialog header="Información del Producto" widgetVar="dlgProducto" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="dialogProducto">
-                    <h:form id="formProducto">
-                        <h:panelGrid columns="2">
-                            <h:outputLabel value="ID:" />
-                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.idProducto}" />
+                <p:dialog header="Información del Producto" widgetVar="dlgProducto" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="dialogProducto"
+                          style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; max-width: 90%;">
+                    <p:outputPanel id="productDetail" style="text-align:center;">
+                        <p:column rendered="#{not empty productosGeneralControlador.productoSeleccionado}">
+                            <div class="product">
+                                <div class="product-grid-item border-0" style="margin-bottom: 0">
+                                    <div class="product-grid-item-top">
+                                        <div>
+                                            <i class="pi pi-tag product-category-icon"/>
+                                            <span class="product-category">#{productosGeneralControlador.productoSeleccionado.categoria != null ? productosGeneralControlador.productoSeleccionado.categoria : 'Sin Categoría'}</span>
+                                        </div>  
+                                    </div>
+                                    <div class="product-grid-item-content"  style="line-height: 2;">
+                                        <div class="product-name" style="font-weight: bold;">#{productosGeneralControlador.productoSeleccionado.nombre}</div>
+                                        <div class="product-description">#{productosGeneralControlador.productoSeleccionado.descripcion != null ? productosGeneralControlador.productoSeleccionado.descripcion : 'Sin Descripcion'}</div>
+                                        <p:rating value="#{productosGeneralControlador.productoSeleccionado.valoraciones}" readonly="true" id="rating"></p:rating>
+                                    </div>
 
-                            <h:outputLabel value="Nombre:" />
-                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.nombre}" />
+                                    <p:panel id="panelValoraciones" toggleable="true" header="Valoraciones" collapsed="true">
+                                        <p:dataTable var="valoracion" value="#{productosGeneralControlador.valoracionesProductoSeleccionado}" widgetVar="valoracionTable"
+                                                     emptyMessage="Este producto aun no tiene valoraciones"
+                                                     paginator="true" paginatorPosition="bottom" rows="2">
 
-                            <h:outputLabel value="Marca:" />
-                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.marca}" />
+                                            <p:column headerText="Usuario">
+                                                <h:outputText value="#{valoracion.idUsuario.nombre}" />
+                                            </p:column>
 
-                            <h:outputLabel value="Descripción:" />
-                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.descripcion}" />
+                                            <p:column headerText="Fecha y Hora">
+                                                <h:outputText value="#{valoracion.fecha} #{valoracion.hora}"/>
+                                            </p:column>
 
-                            <h:outputLabel value="Precio:" />
-                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.precio}" />
+                                            <p:column headerText="Puntuación">
+                                                <p:rating value="#{valoracion.valoracion}" readonly="true"/>
+                                            </p:column>
 
-                            <h:outputLabel value="Cantidad:" />
-                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.cantidad}" />
+                                            <p:column headerText="Texto">
+                                                <h:outputText  value="#{valoracion.descripcion}"  />
+                                            </p:column>
 
-                            <h:outputLabel value="Vendedor:" />
-                            <h:outputText value="#{productosGeneralControlador.productoSeleccionado.vendedores.nombre}" />
+                                        </p:dataTable>
+                                    </p:panel>
+                                    <div class="product-grid-item-bottom"  style="margin-top: 1rem;">
+                                        <h:outputText value="#{productosGeneralControlador.productoSeleccionado.precio}"
+                                                      styleClass="product-price" style="margin-right: 1rem;">
+                                            <f:convertNumber currencySymbol="€" type="currency"/>
+                                        </h:outputText>
+                                        <p:commandButton type="button" value="Añadir a carrito"
+                                                         icon="pi pi-shopping-cart"  style="margin-left: 1rem;">
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:column>
+                    </p:outputPanel>
 
-                            <h:outputLabel value="Valoraciones:" />
-                            <p:dataTable var="valoracion" value="#{productosGeneralControlador.valoracionesProductoSeleccionado}" widgetVar="valoracionTable"
-                                         emptyMessage="Este producto aun no tiene valoraciones"
-                                         paginator="true" rows="10"
-                                         >
 
-                                <p:column headerText="Usuario">
-                                    <h:outputText value="#{valoracion.idUsuario.nombre}" />
-                                </p:column>
-                                
-                                <p:column headerText="Fecha y Hora">
-                                    <h:outputText value="#{valoracion.fecha} #{valoracion.hora}"/>
-                                </p:column>
-                                
-                                <p:column headerText="Puntuación">
-                                    <h:outputText  value="#{valoracion.valoracion}" />
-                                </p:column>
-                                
-                                <p:column headerText="Texto">
-                                    <h:outputText  value="#{valoracion.descripcion}"  />
-                                </p:column>
-                                
-                            </p:dataTable>
-
-                        </h:panelGrid>
-                    </h:form>
                 </p:dialog>
+
+
             </h:form>
         </ui:define>
 

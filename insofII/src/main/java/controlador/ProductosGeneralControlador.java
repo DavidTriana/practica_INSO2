@@ -40,6 +40,7 @@ public class ProductosGeneralControlador implements Serializable {
     private productos productoSeleccionado;
 
     private List<valoraciones> valoracionesProductoSeleccionado;
+    
 
     //obtener la lista de productos global, no relacionada con el usuario
     @PostConstruct
@@ -99,6 +100,14 @@ public class ProductosGeneralControlador implements Serializable {
         this.valoracionesProductoSeleccionado = valoracionesProductoSeleccionado;
     }
 
+    public valoracionesFacadeLocal getValoracionesEJB() {
+        return valoracionesEJB;
+    }
+
+    public void setValoracionesEJB(valoracionesFacadeLocal valoracionesEJB) {
+        this.valoracionesEJB = valoracionesEJB;
+    }
+
     public void onRowSelect(SelectEvent event) {
 
         productoSeleccionado = (productos) event.getObject();
@@ -111,4 +120,5 @@ public class ProductosGeneralControlador implements Serializable {
         }
 
     }
+
 }
