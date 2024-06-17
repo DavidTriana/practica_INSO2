@@ -5,10 +5,14 @@
  */
 package EJB;
 
+import controlador.UsuarioControlador;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import modelo.envios;
+import modelo.usuarios;
 
 /**
  *
@@ -27,6 +31,20 @@ public class enviosFacade extends AbstractFacade<envios> implements enviosFacade
 
     public enviosFacade() {
         super(envios.class);
+    }
+    
+    @Override
+    public List<envios> obtenerEnviosUsuario(usuarios usuario){
+        String consulta = "FROM envios e WHERE e.usuario.idUsuario=:param1";
+        Query query = em.createQuery(consulta);
+        
+        query.setParameter("param1", usuario.getIdUsuario());
+        List<envios> resultado = query.getResultList();
+        return query.getResultList();
+        
+        /*Query q = em.createQuery("SELECT e FROM Envios e WHERE e.usuario = :usuario");
+        q.setParameter("usuario", usuario);
+        return q.getResultList();*/
     }
     
 }

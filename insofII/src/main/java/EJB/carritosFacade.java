@@ -5,10 +5,12 @@
  */
 package EJB;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import modelo.carritos;
 import modelo.usuarios;
 
@@ -33,12 +35,24 @@ public class carritosFacade extends AbstractFacade<carritos> implements carritos
     
     @Override
     public carritos findCarritoByUsuario(usuarios usuario){
-        try{
+        String consulta = "FROM carritos c WHERE c.usuario.idUsuario=:param1";
+        Query query = em.createQuery(consulta);
+        
+        query.setParameter("param1", usuario.getIdUsuario());
+        List<carritos> resultado = query.getResultList();
+        if(!resultado.isEmpty()){
+            return resultado.get(0);
+        }else{
+            return null;
+        }
+        
+        /*try{
             return em.createQuery("SELECT c FROM carritos c WHERE c.usuario.idUsuario = :idUsuario", carritos.class).setParameter("idUsuario", usuario.getIdUsuario()).getSingleResult();
             
         }catch (NoResultException e){
             return null;
         }
+*/
     }
     
     @Override

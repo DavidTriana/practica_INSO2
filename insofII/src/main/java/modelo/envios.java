@@ -37,7 +37,7 @@ public class envios implements Serializable{
     @Column(name="estado")
     private String estado;
     
-    @JoinColumn(name="idUsuario")
+    @JoinColumn(name="usuario", referencedColumnName = "idUsuario")
     @ManyToOne
     private usuarios usuario;
     
