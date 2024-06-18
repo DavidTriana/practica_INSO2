@@ -68,10 +68,13 @@ public class carritoControlador implements Serializable {
                 if (carrito.getProductos() != null && !carrito.getProductos().isEmpty()) {
                     String[] productosIds = carrito.getProductos().split(",");
                     productosList = new ArrayList<>();
+                    double aux = 0;
                     for (String productoId : productosIds) {
                         productos product = productosFacade.find(Integer.parseInt(productoId));
+                        aux += product.getPrecio();
                         productosList.add(product);
                     }
+                    carrito.setCosteTotal(aux);
                 }
 
             }

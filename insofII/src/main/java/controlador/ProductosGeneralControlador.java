@@ -144,13 +144,8 @@ public class ProductosGeneralControlador implements Serializable {
     }
 
     public void anadirProductoACarrito() {
-        System.out.println("Entrado a añadirProductoACarrito");
         usuarios usuario = (usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-        System.out.println(usuario.getNombre());
         this.carrito = carritosEJB.findCarritoByUsuario(usuario);
-
-        System.out.println(carrito.getIdPedido());
-
         carritosEJB.addProducto(carrito, productoSeleccionado);
     }
 

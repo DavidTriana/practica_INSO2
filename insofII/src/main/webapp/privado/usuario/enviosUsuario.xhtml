@@ -13,31 +13,36 @@
 
         <ui:define name="top">
             <div class="top-content">
-                    <div class="top-left">
-                        <p>Bienvenido, #{usuarioControlador.usuario.nombre}</p>
-                    </div>
-                    <div class="top-center">
-                        <h:form>
-                            <p:commandLink action="#{enviosUsuarioControlador.irEnviosUsuario()}" value="Mis Pedidos" />
-                        </h:form>
-                        <h:form>
-                            <p:commandLink action="#{enviosUsuarioControlador.irProductos()}" value="Ver Productos" />
-                        </h:form>
-                        <h:form>
-                            <p:commandLink action="#{enviosUsuarioControlador.irPrincipal()}" value="Principal" />
-                        </h:form>
-                    </div>
-                    <div class="top-right">
-                        <h:form>
-                            <p:commandButton value="Carrito" icon="pi pi-cart-arrow-down" action="#{enviosUsuarioControlador.irCarrito()}"/>
-                        </h:form>
-                    </div>
+                <div class="top-left">
+                    <p>Bienvenido, #{usuarioControlador.usuario.nombre}</p>
                 </div>
+                <div class="top-center">
+                    <h:form>
+                        <p:commandLink action="#{enviosUsuarioControlador.irEnviosUsuario()}" value="Mis Pedidos" />
+                    </h:form>
+                    <h:form>
+                        <p:commandLink action="#{enviosUsuarioControlador.irProductos()}" value="Ver Productos" />
+                    </h:form>
+                    <h:form>
+                        <p:commandLink action="#{enviosUsuarioControlador.irPrincipal()}" value="Principal" />
+                    </h:form>
+                </div>
+                <div class="top-right">
+                    <h:form>
+                        <p:commandButton value="Carrito" icon="pi pi-cart-arrow-down" action="#{enviosUsuarioControlador.irCarrito()}"/>
+                    </h:form>
+                </div>
+            </div>
         </ui:define>
 
         <ui:define name="content">
-            <h:form>
-                <p:dataTable value="#{enviosUsuarioControlador.enviosUsuario}" var="envio" paginator="true" rows="10">
+            <h:form id="formEnvios">
+                <p:dataTable value="#{enviosUsuarioControlador.enviosUsuario}" var="envio" paginator="true" rows="10"
+                             emptyMessage="Aun no tienes pedidos"
+                             selectionMode="single" selection="#{enviosUsuarioControlador.envioSeleccionado}" rowKey="#{envio.idEnvio}">
+
+                    <p:ajax event="rowSelect" listener="#{enviosUsuarioControlador.onRowSelect}" oncomplete="PF('dlgEnvio').show();" update=":formEnvios:dialogEnvio"/>
+
                     <p:column headerText="Fecha">
                         <h:outputText value="#{envio.fecha}" />
                     </p:column>
@@ -54,6 +59,51 @@
                         <h:outputText value="#{envio.productos}" />
                     </p:column>
                 </p:dataTable>
+
+                <p:dialog header="Información del Envío" widgetVar="dlgEnvio" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="dialogEnvio">
+                    <h:form id="formEnvioDialog">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel value="ID Envío:" />
+                            <h:outputText value="#{enviosUsuarioControlador.envioSeleccionado.idEnvio}" />
+
+                            <h:outputLabel value="Fecha:" />
+                            <h:outputText value="#{enviosUsuarioControlador.envioSeleccionado.fecha}" />
+
+                            <h:outputLabel value="Hora:" />
+                            <h:outputText value="#{enviosUsuarioControlador.envioSeleccionado.hora}" />
+
+                            <h:outputLabel value="Estado:" />
+                            <h:outputText value="#{enviosUsuarioControlador.envioSeleccionado.estado}" />
+                        </h:panelGrid>
+
+                        <p:separator />
+
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <h:outputLabel value="Productos:" style="font-weight: bold;" />
+                        </h:panelGrid>
+
+                        <p:dataTable value="#{enviosUsuarioControlador.productosEnvioSeleccionado}" var="producto" style="width:100%">
+                            <p:column headerText="Nombre del Producto">
+                                <h:outputText value="#{producto.nombre}" />
+                            </p:column>
+                            
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{producto.precio}" />
+                            </p:column>
+                            
+                            <p:column headerText="Descripcion">
+                                <h:outputText value="#{producto.descripcion}" />
+                            </p:column>
+                            
+                            <p:column>
+                                <p:commandButton value="Añadir valoración" icon="pi pi-shopping-cart"
+                                                 action="#{enviosUsuarioControlador.crearValoracion()}"/>
+                            </p:column>
+                            
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+
             </h:form>
         </ui:define>
 

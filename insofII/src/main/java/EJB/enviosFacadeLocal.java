@@ -8,6 +8,7 @@ package EJB;
 import java.util.List;
 import javax.ejb.Local;
 import modelo.envios;
+import modelo.productos;
 import modelo.usuarios;
 
 /**
@@ -32,5 +33,7 @@ public interface enviosFacadeLocal {
     int count();
     
     List<envios> obtenerEnviosUsuario(usuarios usuario);
+    
+    List<productos> obtenerProductosEnvio(String productosString);
     
 }
