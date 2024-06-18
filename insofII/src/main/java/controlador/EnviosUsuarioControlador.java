@@ -20,6 +20,7 @@ import javax.inject.Named;
 import modelo.envios;
 import modelo.productos;
 import modelo.usuarios;
+import modelo.valoraciones;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -44,12 +45,18 @@ public class EnviosUsuarioControlador implements Serializable {
     private envios envioSeleccionado;
     
     private List<productos> productosEnvioSeleccionado;
+    
+    private productos productoSeleccionado;
+    
+    private valoraciones nuevaValoracion;
 
     @PostConstruct
     public void init() {
         usuarios user = usuarioControlador.getUsuario();
         enviosUsuario = enviosFacade.obtenerEnviosUsuario(user);
         productosEnvioSeleccionado = Collections.emptyList();
+        productoSeleccionado = new productos();
+        nuevaValoracion = new valoraciones();
     }
 
     public List<envios> getEnviosUsuario() {
@@ -96,12 +103,29 @@ public class EnviosUsuarioControlador implements Serializable {
     public void setProductosEnvioSeleccionado(List<productos> productosEnvioSeleccionado) {
         this.productosEnvioSeleccionado = productosEnvioSeleccionado;
     }
+
+    public productos getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(productos productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
+        System.out.println(this.productoSeleccionado);
+    }
+
+    public valoraciones getNuevaValoracion() {
+        return nuevaValoracion;
+    }
+
+    public void setNuevaValoracion(valoraciones nuevaValoracion) {
+        this.nuevaValoracion = nuevaValoracion;
+    }
     
     public void onRowSelect(SelectEvent event) {
         envioSeleccionado = (envios) event.getObject();
         productosEnvioSeleccionado = enviosFacade.obtenerProductosEnvio(envioSeleccionado.getProductos());
     }
-    
+
     public void crearValoracion(){
         
     }

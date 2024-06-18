@@ -79,31 +79,49 @@
                         <p:separator />
 
                         <h:panelGrid columns="1" cellpadding="5">
-                            <h:outputLabel value="Productos:" style="font-weight: bold;" />
+                            <h:outputLabel value="Productos:" style="font-weight: bold;"/>
                         </h:panelGrid>
 
                         <p:dataTable value="#{enviosUsuarioControlador.productosEnvioSeleccionado}" var="producto" style="width:100%">
                             <p:column headerText="Nombre del Producto">
                                 <h:outputText value="#{producto.nombre}" />
                             </p:column>
-                            
+
                             <p:column headerText="Precio">
                                 <h:outputText value="#{producto.precio}" />
                             </p:column>
-                            
+
                             <p:column headerText="Descripcion">
                                 <h:outputText value="#{producto.descripcion}" />
                             </p:column>
-                            
+
                             <p:column>
                                 <p:commandButton value="Añadir valoración" icon="pi pi-shopping-cart"
-                                                 action="#{enviosUsuarioControlador.crearValoracion()}"/>
+                                                 action="#{enviosUsuarioControlador.setProductoSeleccionado(producto)}"
+                                                 oncomplete="PF('dlgCrearValoracion').show();" update=":formEnvios:dialogCrearValoracion"/>
                             </p:column>
-                            
+
                         </p:dataTable>
                     </h:form>
                 </p:dialog>
 
+                <p:dialog header="Crear valoración - #{enviosUsuarioControlador.productoSeleccionado.nombre}" widgetVar="dlgCrearValoracion" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="dialogCrearValoracion">
+                    <h:form id="formCrearValoracion">
+                        <h:panelGrid columns="2" style="margin-bottom:10px">
+                            <h:outputLabel for="rating" value="Puntuación:" />
+                            <p:rating id="rating" value="#{enviosUsuarioControlador.nuevaValoracion.valoracion}" stars="5" cancel="true" />
+
+                            <h:outputLabel for="descripcion" value="Descripción:" />
+                            <p:inputTextarea id="descripcion" value="#{enviosUsuarioControlador.nuevaValoracion.descripcion}" rows="4" cols="30" maxlength="255" counter="displayCounter" counterTemplate="{0} caracteres restantes" />
+
+                            <h:outputLabel />
+                            <h:outputText id="displayCounter" />
+
+                        </h:panelGrid>
+                        <p:commandButton value="Guardar" action="#{enviosUsuarioControlador.crearValoracion}" oncomplete="PF('dlgCrearValoracion').hide()" />
+                        <p:commandButton value="Cancelar" type="button" onclick="PF('dlgCrearValoracion').hide()" />
+                    </h:form>
+                </p:dialog>
             </h:form>
         </ui:define>
 
