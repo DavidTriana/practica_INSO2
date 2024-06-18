@@ -18,7 +18,7 @@
                     </div>
                     <div class="top-center">
                         <h:form>
-                            <p:commandLink action="#{carritoControlador.irPedidosUsuario()}" value="Mis Pedidos" />
+                            <p:commandLink action="#{carritoControlador.irEnviosUsuario()}" value="Mis Pedidos" />
                         </h:form>
                         <h:form>
                             <p:commandLink action="#{carritoControlador.irProductos()}" value="Ver Productos" />
@@ -53,6 +53,8 @@
                         <p:commandButton value="Eliminar Carrito" icon="pi pi-trash"
                                          action="#{carritoControlador.eliminarCarrito()}"
                                          ajax="false" />
+                        <h:commandButton value="Comprar" action="#{carritoControlador.comprarCarrito()}" />
+
                     </h:form>
 
                 </h:panelGroup>

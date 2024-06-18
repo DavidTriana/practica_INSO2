@@ -18,18 +18,18 @@
                     </div>
                     <div class="top-center">
                         <h:form>
-                            <p:commandLink action="#{usuarioControlador.irPedidosUsuario()}" value="Mis Pedidos" />
+                            <p:commandLink action="#{enviosUsuarioControlador.irEnviosUsuario()}" value="Mis Pedidos" />
                         </h:form>
                         <h:form>
-                            <p:commandLink action="#{usuarioControlador.irProductos()}" value="Ver Productos" />
+                            <p:commandLink action="#{enviosUsuarioControlador.irProductos()}" value="Ver Productos" />
                         </h:form>
                         <h:form>
-                            <p:commandLink action="#{usuarioControlador.irPrincipal()}" value="Principal" />
+                            <p:commandLink action="#{enviosUsuarioControlador.irPrincipal()}" value="Principal" />
                         </h:form>
                     </div>
                     <div class="top-right">
                         <h:form>
-                            <p:commandButton value="Carrito" icon="pi pi-cart-arrow-down" action="#{usuarioControlador.irCarrito()}"/>
+                            <p:commandButton value="Carrito" icon="pi pi-cart-arrow-down" action="#{enviosUsuarioControlador.irCarrito()}"/>
                         </h:form>
                     </div>
                 </div>
@@ -37,19 +37,21 @@
 
         <ui:define name="content">
             <h:form>
-                <p:dataTable value="#{productoBean.productos}" var="producto" paginator="true" rows="10" 
-                             filteredValue="#{productoBean.filteredProductos}" widgetVar="productosTable">
-
-                    <p:column headerText="Nombre" filterBy="#{producto.nombre}" filterMatchMode="contains">
-                        <h:outputText value="#{producto.nombre}" />
+                <p:dataTable value="#{enviosUsuarioControlador.enviosUsuario}" var="envio" paginator="true" rows="10">
+                    <p:column headerText="Fecha">
+                        <h:outputText value="#{envio.fecha}" />
                     </p:column>
-
-                    <p:column headerText="Cantidad" filterBy="#{producto.cantidad}" filterMatchMode="exact">
-                        <h:outputText value="#{producto.cantidad}" />
+                    <p:column headerText="Hora">
+                        <h:outputText value="#{envio.hora}" />
                     </p:column>
-
-                    <p:column headerText="Precio" filterBy="#{producto.precio}" filterMatchMode="exact">
-                        <h:outputText value="#{producto.precio}" />
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{envio.estado}" />
+                    </p:column>
+                    <p:column headerText="Precio Total">
+                        <h:outputText value="#{envio.precioTotal}" />
+                    </p:column>
+                    <p:column headerText="Productos">
+                        <h:outputText value="#{envio.productos}" />
                     </p:column>
                 </p:dataTable>
             </h:form>

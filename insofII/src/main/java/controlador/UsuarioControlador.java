@@ -81,8 +81,8 @@ public class UsuarioControlador implements Serializable {
         return "productosGeneral.xhtml?faces-redirect=true";
     }
     
-    public String irPedidosUsuario(){
-        return "pedidosUsuario.xhtml?faces-redirect=true";
+    public String irEnviosUsuario(){
+        return "enviosUsuario.xhtml?faces-redirect=true";
     }
     
      public String irPrincipal(){
