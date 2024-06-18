@@ -11,6 +11,8 @@ import javax.persistence.PersistenceContext;
 import modelo.productos;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
+import modelo.vendedores;
 
 /**
  *
@@ -31,9 +33,19 @@ public class productosFacade extends AbstractFacade<productos> implements produc
         super(productos.class);
     }
     
-    public void guardarProducto(productos producto) {
-        
-        System.out.println("se va a guardar el producto "+ producto.getNombre());
-    }
+    @Override
+    public List<productos> obtenerProductosDeVendedor(vendedores vendedor){
     
+        List<productos> listaProductos = new ArrayList<>();
+        
+        String consulta = "FROM productos p WHERE p.vendedores=:param1";
+        Query query = em.createQuery(consulta);
+        
+        query.setParameter("param1", vendedor);        
+        listaProductos = query.getResultList();
+        
+        System.out.println(listaProductos.get(0));
+        
+        return listaProductos;
+    }
 }
