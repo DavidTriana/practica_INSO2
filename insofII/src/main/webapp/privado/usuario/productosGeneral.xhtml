@@ -18,7 +18,7 @@
 
         <ui:define name="content">
             <h:form id="productForm">
-                <p:dataTable var="producto" value="#{productosGeneralControlador.listaProductos}" widgetVar="productosTable"
+                <p:dataTable var="producto" value="#{productosGeneralControlador.obtenerListaProductosDisponibles()}" widgetVar="productosTable"
                              emptyMessage="No existen productos con estas especificaciones"
                              filteredValue="#{productosGeneralControlador.filteredProductos}" paginator="true" rows="10"
                              selectionMode="single" selection="#{productosGeneralControlador.productoSeleccionado}" rowKey="#{producto.idProducto}">
@@ -59,10 +59,6 @@
                         <h:outputText value="#{producto.precio}" >
                             <f:convertNumber currencySymbol="€" type="currency"/>
                         </h:outputText>
-                    </p:column>
-
-                    <p:column headerText="Cantidad" sortBy="#{producto.cantidad}" filterBy="#{producto.cantidad}">
-                        <h:outputText value="#{producto.cantidad}" />
                     </p:column>
 
                     <p:column headerText="Vendedor" sortBy="#{producto.vendedores.nombre}" filterBy="#{producto.vendedores.nombre}">
