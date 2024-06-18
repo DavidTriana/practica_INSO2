@@ -8,6 +8,7 @@ package EJB;
 import java.util.List;
 import javax.ejb.Local;
 import modelo.productos;
+import modelo.vendedores;
 
 /**
  *
@@ -29,5 +30,7 @@ public interface productosFacadeLocal {
     List<productos> findRange(int[] range);
 
     int count();
+    
+    List<productos> obtenerProductosDeVendedor(vendedores vendedor);
     
 }

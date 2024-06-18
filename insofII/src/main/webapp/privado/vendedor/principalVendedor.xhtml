@@ -7,49 +7,63 @@
         <title>Productos del Vendedor</title>
     </h:head>
     <h:body>
-        <h:form id="formProductos">
-            <h2>Productos del Vendedor</h2>
-            <p:dataTable id="tablaProductos" value="#{vendedorControlador.productos}" var="producto" editable="true"
-                         selection="#{vendedorControlador.productoSeleccionado}" 
-                         selectionMode="single" rowKey="#{producto.id}" 
-                         emptyMessage="No has publicado ningún producto">
-                <p:ajax event="rowSelect" update=":formProductos:formProductoDialog" oncomplete="PF('productoDialog').show();" />
-                <p:column headerText="ID">
-                    <h:outputText value="#{producto.id}" />
-                </p:column>
-                <p:column headerText="Nombre">
-                    <h:outputText value="#{producto.nombre}" />
-                </p:column>
-                <p:column headerText="Descripción">
-                    <h:outputText value="#{producto.descripcion}" />
-                </p:column>
-                <p:column headerText="Precio">
-                    <h:outputText value="#{producto.precio}" />
-                </p:column>
-            </p:dataTable>
-            <p:commandButton value="Crear Nuevo Producto" icon="pi pi-plus" oncomplete="PF('dlgNuevoProducto').show();" update=":formProductos:tablaProductos"/>
+        
+        <p:panelGrid columns="2" style="width:100%;">
 
-            <p:dialog header="Información del Producto" widgetVar="productoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="formProductoDialog">
-                <h:form>
-                    <h:panelGrid columns="2">
-                        <h:outputLabel value="ID:" />
-                        <h:outputText value="#{vendedorControlador.productoSeleccionado.id}" />
-                        
-                        <h:outputLabel value="Nombre:" />
-                        <h:outputText value="#{vendedorControlador.productoSeleccionado.nombre}" />
-                        
-                        <h:outputLabel value="Descripción:" />
-                        <h:outputText value="#{vendedorControlador.productoSeleccionado.descripcion}" />
-                        
-                        <h:outputLabel value="Precio:" />
-                        <h:outputText value="#{vendedorControlador.productoSeleccionado.precio}" />
-                        
-                        <p:commandButton value="Eliminar" action="#{vendedorControlador.eliminarProducto}" update=":formProductos:tablaProductos" oncomplete="PF('productoDialog').hide();" />
-                    </h:panelGrid>
+            <p:panel header="Lista de Productos">
+                <h:form id="formProductos">
+                    <h2>Productos del Vendedor</h2>
+                    <p:dataTable id="tablaProductos" value="#{vendedorControlador.productos}" var="producto" editable="true"
+                                 selection="#{vendedorControlador.productoSeleccionado}" 
+                                 selectionMode="single" rowKey="#{producto.idProducto}" 
+                                 emptyMessage="No has publicado ningún producto"
+                                 scrollable="true" scrollHeight="400px">
+                        <p:ajax event="rowSelect" update="formProductoDialog" oncomplete="PF('productoDialog').show();" />
+                        <p:column headerText="ID">
+                            <h:outputText value="#{producto.idProducto}" />
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{producto.nombre}" />
+                        </p:column>
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{producto.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Precio">
+                            <h:outputText value="#{producto.precio}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Crear Nuevo Producto" icon="pi pi-plus" oncomplete="PF('dlgNuevoProducto').show();" update=":formProductos:tablaProductos"/>
                 </h:form>
-            </p:dialog>
-        </h:form>
+            </p:panel>
+            <p:panel header="Gráfico de Ventas">
+                <div style="width: 100%; overflow-x: auto;">
+                    <p:barChart id="barChart" model="#{vendedorControlador.barModel}" 
+                                 style="width: #{vendedorControlador.anchoGrafico}px; height: 300px;" />
+                </div>
+            </p:panel>
+                
+        </p:panelGrid>
 
+         <p:dialog header="Información del Producto" widgetVar="productoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="formProductoDialog">
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="ID:" />
+                    <h:outputText value="#{vendedorControlador.productoSeleccionado.idProducto}" />
+
+                    <h:outputLabel value="Nombre:" />
+                    <h:outputText value="#{vendedorControlador.productoSeleccionado.nombre}" />
+
+                    <h:outputLabel value="Descripción:" />
+                    <h:outputText value="#{vendedorControlador.productoSeleccionado.descripcion}" />
+
+                    <h:outputLabel value="Precio:" />
+                    <h:outputText value="#{vendedorControlador.productoSeleccionado.precio}" />
+
+                    <p:commandButton value="Eliminar" action="#{vendedorControlador.eliminarProducto}" update=":formProductos:tablaProductos" oncomplete="PF('productoDialog').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+        
         <p:dialog header="Nuevo Producto" widgetVar="dlgNuevoProducto" modal="true" resizable="false" id="dialogNuevoProducto">
             <h:form id="formNuevoProducto">
                 <h:panelGrid columns="2">
@@ -65,23 +79,10 @@
                     
                 </h:panelGrid>
 
-                <p:commandButton value="Guardar" actionListener="#{vendedorControlador.guardarNuevoProducto}" update=":formProductos:tablaProductos" oncomplete="PF('dlgNuevoProducto').hide();"/>
+                <p:commandButton value="Guardar" action="#{vendedorControlador.guardarNuevoProducto}" update=":formProductos" oncomplete="PF('dlgNuevoProducto').hide();"/>
                 <p:commandButton value="Cancelar" onclick="PF('dlgNuevoProducto').hide();" type="button" />
             </h:form>
         </p:dialog>
         
-        <h:form id="formVentas">
-        <p:dataTable id="ventasTable" var="venta" value="#{vendedorControlador.ventas}" scrollable="true" scrollHeight="200">
-            <p:column headerText="Producto">
-                <h:outputText value="#{venta.producto.nombre}" />
-            </p:column>
-            <p:column headerText="Cantidad de Ventas">
-                <h:outputText value="#{venta.cantidadVentas}" />
-            </p:column>
-            <p:column headerText="Total de Beneficio">
-                <h:outputText value="#{venta.totalBeneficio}" />
-            </p:column>
-        </p:dataTable>
-        </h:form>
     </h:body>
 </html>
