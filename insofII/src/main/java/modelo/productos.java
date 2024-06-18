@@ -53,6 +53,10 @@ public class productos implements Serializable{
     @ManyToOne
     private vendedores vendedores;
 
+     @JoinColumn(name="pedidos", referencedColumnName="IDPEDIDO")
+     @ManyToOne
+     private carritos carritos;
+    
     public int getIdProducto() {
         return idProducto;
     }
@@ -125,18 +129,27 @@ public class productos implements Serializable{
         this.vendedores = vendedores;
     }
 
+    public carritos getCarritos() {
+        return carritos;
+    }
+
+    public void setCarritos(carritos carritos) {
+        this.carritos = carritos;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 17 * hash + this.idProducto;
-        hash = 17 * hash + Objects.hashCode(this.nombre);
-        hash = 17 * hash + Objects.hashCode(this.marca);
-        hash = 17 * hash + Objects.hashCode(this.descripcion);
-        hash = 17 * hash + Objects.hashCode(this.categoria);
-        hash = 17 * hash + (int) (Double.doubleToLongBits(this.precio) ^ (Double.doubleToLongBits(this.precio) >>> 32));
-        hash = 17 * hash + this.cantidad;
-        hash = 17 * hash + this.valoraciones;
-        hash = 17 * hash + Objects.hashCode(this.vendedores);
+        hash = 97 * hash + this.idProducto;
+        hash = 97 * hash + Objects.hashCode(this.nombre);
+        hash = 97 * hash + Objects.hashCode(this.marca);
+        hash = 97 * hash + Objects.hashCode(this.descripcion);
+        hash = 97 * hash + Objects.hashCode(this.categoria);
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.precio) ^ (Double.doubleToLongBits(this.precio) >>> 32));
+        hash = 97 * hash + this.cantidad;
+        hash = 97 * hash + this.valoraciones;
+        hash = 97 * hash + Objects.hashCode(this.vendedores);
+        hash = 97 * hash + Objects.hashCode(this.carritos);
         return hash;
     }
 
@@ -179,14 +192,16 @@ public class productos implements Serializable{
         if (!Objects.equals(this.vendedores, other.vendedores)) {
             return false;
         }
+        if (!Objects.equals(this.carritos, other.carritos)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "productos{" + "idProducto=" + idProducto + ", nombre=" + nombre + ", marca=" + marca + ", descripcion=" + descripcion + ", categoria=" + categoria + ", precio=" + precio + ", cantidad=" + cantidad + ", valoraciones=" + valoraciones + ", vendedores=" + vendedores + '}';
+        return "productos{" + "idProducto=" + idProducto + ", nombre=" + nombre + ", marca=" + marca + ", descripcion=" + descripcion + ", categoria=" + categoria + ", precio=" + precio + ", cantidad=" + cantidad + ", valoraciones=" + valoraciones + ", vendedores=" + vendedores + ", carritos=" + carritos + '}';
     }
-
     
     
 }

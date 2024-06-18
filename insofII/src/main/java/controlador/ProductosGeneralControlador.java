@@ -5,15 +5,20 @@
  */
 package controlador;
 
+import EJB.carritosFacadeLocal;
 import EJB.productosFacadeLocal;
 import EJB.valoracionesFacadeLocal;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import modelo.carritos;
 import modelo.productos;
+import modelo.usuarios;
 import modelo.valoraciones;
 import org.primefaces.event.SelectEvent;
 
@@ -30,6 +35,12 @@ public class ProductosGeneralControlador implements Serializable {
 
     @EJB
     private valoracionesFacadeLocal valoracionesEJB;
+    
+    @EJB
+    private carritosFacadeLocal carritosEJB;
+    
+    @Inject
+    private carritos carrito;
 
     private List<productos> listaProductos;
 
@@ -40,13 +51,13 @@ public class ProductosGeneralControlador implements Serializable {
     private productos productoSeleccionado;
 
     private List<valoraciones> valoracionesProductoSeleccionado;
-    
 
     //obtener la lista de productos global, no relacionada con el usuario
     @PostConstruct
     public void init() {
         try {
             listaProductos = productoEJB.findAll();
+            productoSeleccionado = new productos();
         } catch (Exception e) {
             System.out.println("Error al cargar los productos: " + e.getMessage());
         }
@@ -110,15 +121,27 @@ public class ProductosGeneralControlador implements Serializable {
 
     public void onRowSelect(SelectEvent event) {
 
-        productoSeleccionado = (productos) event.getObject();
+        this.productoSeleccionado = (productos) event.getObject();
+        
         List<valoraciones> aux = valoracionesEJB.findByProducto(productoSeleccionado);
         if (aux != null) {
             valoracionesProductoSeleccionado = aux;
-        }
-        else{
+        } else {
             valoracionesProductoSeleccionado.clear();
         }
 
     }
+    
+    public void anadirProductoACarrito(){
+        System.out.println("Entrado a añadirProductoACarrito");
+        usuarios usuario = (usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        System.out.println(usuario.getNombre());
+        this.carrito = carritosEJB.findCarritoByUsuario(usuario);
+        
+        System.out.println(carrito.getIdPedido());
+        
+        carritosEJB.addProducto(carrito, productoSeleccionado);
+    }
+
 
 }

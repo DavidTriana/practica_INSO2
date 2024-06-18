@@ -23,7 +23,7 @@
                              filteredValue="#{productosGeneralControlador.filteredProductos}" paginator="true" rows="10"
                              selectionMode="single" selection="#{productosGeneralControlador.productoSeleccionado}" rowKey="#{producto.idProducto}">
 
-                    <p:ajax event="rowSelect" oncomplete="PF('dlgProducto').show();" update=":productForm" listener="#{productosGeneralControlador.onRowSelect}" />
+                    <p:ajax event="rowSelect" listener="#{productosGeneralControlador.onRowSelect}" oncomplete="PF('dlgProducto').show();" update=":productForm:dialogProducto"/>
 
                     <f:facet name="header">
                         <div class="flex align-items-center justify-content-between">
@@ -117,9 +117,9 @@
                                                       styleClass="product-price" style="margin-right: 1rem;">
                                             <f:convertNumber currencySymbol="€" type="currency"/>
                                         </h:outputText>
-                                        <p:commandButton type="button" value="Añadir a carrito"
-                                                         icon="pi pi-shopping-cart"  style="margin-left: 1rem;">
-                                        </p:commandButton>
+                                        <p:commandButton value="Añadir a carrito"
+                                                         icon="pi pi-shopping-cart"  style="margin-left: 1rem;"
+                                                         action="#{productosGeneralControlador.anadirProductoACarrito()}"/>
                                     </div>
                                 </div>
                             </div>

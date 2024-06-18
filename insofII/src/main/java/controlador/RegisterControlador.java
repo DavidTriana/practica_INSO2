@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import EJB.carritosFacadeLocal;
 import EJB.usuariosFacadeLocal;
 import EJB.vendedoresFacadeLocal;
 import java.io.Serializable;
@@ -12,44 +13,50 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import modelo.carritos;
 import modelo.usuarios;
 import modelo.vendedores;
 import org.primefaces.PrimeFaces;
-
-
 
 /**
  *
  * @author gueps
  */
 @ManagedBean
-@ViewScoped /* El bean solo estará disponible mientras el usuario esté interactuando con la vista*/
-public class RegisterControlador implements Serializable{
-   
+@ViewScoped
+/* El bean solo estará disponible mientras el usuario esté interactuando con la vista*/
+public class RegisterControlador implements Serializable {
+
     private String tipoUsuario;
     private usuarios usuario = new usuarios();
     private vendedores vendedor = new vendedores();
-    
+    private carritos carrito = new carritos();
+
     @EJB
     private usuariosFacadeLocal usuarioFacadeLocal;
-    
+
     @EJB
     private vendedoresFacadeLocal vendedorFacadeLocal;
-    
-    public String registrarUsuario(){
+
+    @EJB
+    private carritosFacadeLocal carritosFacadeLocal;
+
+    public String registrarUsuario() {
         String nav = "login.xhtml?faces-redirect=true";
-        if(tipoUsuario.equals("normal")){
+        if (tipoUsuario.equals("normal")) {
             usuarioFacadeLocal.create(usuario);
+            carrito.setUsuario(usuario);
+            carritosFacadeLocal.create(carrito);
             usuario = new usuarios();
-        }else if(tipoUsuario.equals("vendedor")){
+            carrito = new carritos();
+        } else if (tipoUsuario.equals("vendedor")) {
             vendedorFacadeLocal.create(vendedor);
             vendedor = new vendedores();
         }
         return nav;
     }
-    
+
     /*Getters y setters de tipoUsuario, usuario y vendedor*/
-    
     public String getTipoUsuario() {
         return tipoUsuario;
     }
@@ -73,9 +80,8 @@ public class RegisterControlador implements Serializable{
     public void setVendedor(vendedores vendedor) {
         this.vendedor = vendedor;
     }
-    
+
     /* Getter y setters de usuarios*/
-    
     public int getIdUsuario() {
         return usuario.getIdUsuario();
     }
@@ -131,15 +137,14 @@ public class RegisterControlador implements Serializable{
     public void setTarjetaBancoUsuario(String tarjetaBanco) {
         usuario.setTarjetaBanco(tarjetaBanco);
     }
-    
+
     /* Getters y setters de vendedor*/
-    
     public int getIdVendedor() {
         return vendedor.getIdVendedor();
     }
 
     public void setIdVendedor(int idVendedor) {
-       vendedor.setIdVendedor(idVendedor);
+        vendedor.setIdVendedor(idVendedor);
     }
 
     public String getNombreVendedor() {
@@ -182,5 +187,4 @@ public class RegisterControlador implements Serializable{
         vendedor.setTarjetaBanco(tarjetaBanco);
     }
 
-    
 }

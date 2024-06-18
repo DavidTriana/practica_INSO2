@@ -8,6 +8,7 @@ package EJB;
 import java.util.List;
 import javax.ejb.Local;
 import modelo.carritos;
+import modelo.productos;
 import modelo.usuarios;
 
 /**
@@ -34,4 +35,6 @@ public interface carritosFacadeLocal {
     carritos findCarritoByUsuario(usuarios usuario);
     
     void removeCarritoByUsuario(usuarios usuario);
+
+    void addProducto(carritos carrito, productos producto);
 }

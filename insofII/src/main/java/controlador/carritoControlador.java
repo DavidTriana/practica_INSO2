@@ -58,22 +58,24 @@ public class carritoControlador implements Serializable {
             carrito = carritosFacade.findCarritoByUsuario(user);
 
             if (carrito != null) {
-                String[] productosIds = carrito.getProductos().split(",");
-                productosList = new ArrayList<>();
-                for (String productoId : productosIds) {
-                    productos product = productosFacade.find(Integer.parseInt(productoId));
-                    productosList.add(product);
+                if (carrito.getProductos() != null && !carrito.getProductos().isEmpty()) {
+                    String[] productosIds = carrito.getProductos().split(",");
+                    productosList = new ArrayList<>();
+                    for (String productoId : productosIds) {
+                        productos product = productosFacade.find(Integer.parseInt(productoId));
+                        productosList.add(product);
+                    }
                 }
+
             }
         }
     }
-    
-    
-    public String eliminarCarrito(){
+
+    public String eliminarCarrito() {
         usuarios user = usuarioControlador.getUsuario();
-        if( user != null){
+        if (user != null) {
             carritosFacade.removeCarritoByUsuario(user);
-        return "carritoUsuario.xhtml?faces-redirect=true";
+            return "carritoUsuario.xhtml?faces-redirect=true";
         }
         return "";
     }
