@@ -43,9 +43,6 @@ public class productosFacade extends AbstractFacade<productos> implements produc
         
         query.setParameter("param1", vendedor);        
         listaProductos = query.getResultList();
-        
-        System.out.println(listaProductos.get(0));
-        
         return listaProductos;
     }
 }

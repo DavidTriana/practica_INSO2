@@ -21,6 +21,8 @@ import EJB.usuariosFacadeLocal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import modelo.envios;
@@ -42,7 +44,7 @@ public class carritoControlador implements Serializable {
 
     @EJB
     private productosFacadeLocal productosFacade;
-    
+
     @EJB
     private enviosFacadeLocal enviosFacade;
 
@@ -80,36 +82,56 @@ public class carritoControlador implements Serializable {
             }
         }
     }
-    
-    public String comprarCarrito(){
-        if(carrito != null && carrito.getCosteTotal() > 0){
+
+    public String comprarCarrito() {
+        usuarios user = usuarioControlador.getUsuario();
+
+        if (carrito != null && carrito.getCosteTotal() > 0) {
             envios envio = new envios();
             envio.setUsuario(carrito.getUsuario());
             envio.setProductos(carrito.getProductos());
             envio.setPrecioTotal(carrito.getCosteTotal());
-            
+
             /*Obtener fecha y hota*/
             String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             String horaActual = new SimpleDateFormat("HH:mm:ss").format(new Date());
-            
+
             envio.setFecha(fechaActual);
             envio.setHora(horaActual);
             envio.setEstado("Pendiente");
-            
+
             enviosFacade.create(envio);
-            carritosFacade.remove(carrito);
-            
+            carritosFacade.removeCarritoByUsuario(user);
+
             carrito = null;
             
-            
-            /*redirigir*/
-            return "principalUsuario.xhtml?faces-redirect=true";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Compra realizada con éxito", "Su compra ha sido procesada correctamente."));
+            String toEmail = user.getEmail();
+            String subject = "Compra realizada con éxito";
+            StringBuilder body = new StringBuilder();
+        body.append("Gracias por su compra. Su pedido ha sido procesado correctamente.\n\n")
+            .append("Detalles del envío:\n")
+            .append("Fecha: ").append(fechaActual).append("\n")
+            .append("Hora: ").append(horaActual).append("\n")
+            .append("Estado: Pendiente\n")
+            .append("Productos:\n");
+
+        for (productos producto : productosList) {
+            body.append("- ").append(producto.getNombre()).append(" - Precio: ").append(producto.getPrecio()).append("\n");
         }
-        return "";
+
+        body.append("\nPrecio Total: ").append(envio.getPrecioTotal()).append("\n")
+            .append("\nDirección de envío: ").append(user.getDireccion()).append("\n");
+
+            Email.sendEmail(toEmail, subject, body.toString());
+            return "principalUsuario.xhtml?faces-redirect=true";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Carrito vacío", "Agregue productos al carrito antes de realizar la compra."));
+            return "";
+        }
     }
-    
-    
-    public String eliminarCarrito(){
+
+    public String eliminarCarrito() {
         usuarios user = usuarioControlador.getUsuario();
         if (user != null) {
             carritosFacade.removeCarritoByUsuario(user);
@@ -126,21 +148,4 @@ public class carritoControlador implements Serializable {
     public List<productos> getProductList() {
         return productosList;
     }
-
-    public String irCarrito() {
-        return "carritoUsuario.xhtml?faces-redirect=true";
-    }
-
-    public String irProductos() {
-        return "productosGeneral.xhtml?faces-redirect=true";
-    }
-
-    public String irEnviosUsuario() {
-        return "enviosUsuario.xhtml?faces-redirect=true";
-    }
-
-    public String irPrincipal() {
-        return "principalUsuario.xhtml?faces-redirect=true";
-    }
-
 }
