@@ -86,7 +86,7 @@ public class carritoControlador implements Serializable {
     public String comprarCarrito() {
         usuarios user = usuarioControlador.getUsuario();
 
-        if (carrito != null && carrito.getCosteTotal() > 0) {
+        if (carrito != null && carrito.getCosteTotal() != null) {
             envios envio = new envios();
             envio.setUsuario(carrito.getUsuario());
             envio.setProductos(carrito.getProductos());
@@ -124,6 +124,7 @@ public class carritoControlador implements Serializable {
             .append("\nDirección de envío: ").append(user.getDireccion()).append("\n");
 
             Email.sendEmail(toEmail, subject, body.toString());
+            
             return "principalUsuario.xhtml?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Carrito vacío", "Agregue productos al carrito antes de realizar la compra."));

@@ -23,6 +23,9 @@
             </ui:define>
 
             <ui:define name="content">
+                <!-- Mensajes de confirmación/errores -->
+                <p:growl id="growl" showDetail="true" life="3000" />
+
                 <h:form id="perfilForm">
                     <h:panelGrid columns="2" styleClass="datos-usuario">
                         <h:outputLabel value="Nombre:" />
@@ -42,6 +45,7 @@
                     </h:panelGrid>
 
                     <p:commandButton value="Editar" oncomplete="PF('dlg').show()" update="dialogo" />
+
                 </h:form>
 
                 <p:dialog header="Editar Datos" widgetVar="dlg" modal="true" id="dialogo">
@@ -63,26 +67,13 @@
                             <h:inputText id="tarjetaBanco" value="#{usuarioControlador.usuario.tarjetaBanco}" required="true" />
                         </h:panelGrid>
 
-                        <p:commandButton value="Guardar" action="#{usuarioControlador.actualizarDatos}" oncomplete="PF('dlg').hide()" update=":perfilForm" />
+                        <p:commandButton value="Guardar" action="#{usuarioControlador.actualizarDatos}" oncomplete="PF('dlg').hide()" update=":perfilForm :growl" />
                     </h:form>
                 </p:dialog>
             </ui:define>
 
-            <ui:define name="bottom">
-                <div class="footer-content">
-                    <p>Contáctenos: <br/>
-                        Dirección: Calle Ejemplo, Ciudad, País <br/>
-                        Teléfono: +123456789 <br/>
-                        Correo electrónico: parctInso2@gmail.com</p>
-                    <p>Envíos: Gratis para compras superiores a 3 pesos </p>
-                    <ul class="enlaces-legales">
-                        <li><a href="#">Política de Privacidad</a></li>
-                        <li><a href="#">Términos de Uso</a></li>
-                        <li><a href="#">Políticas de Devolución</a></li>
-                    </ul>
-                </div>
 
-            </ui:define>
+
         </ui:composition>
 
     </body>

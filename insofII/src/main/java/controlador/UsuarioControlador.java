@@ -5,8 +5,10 @@
  */
 package controlador;
 
+import EJB.enviosFacade;
 import EJB.usuariosFacadeLocal;
 import java.io.Serializable;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.annotation.PostConstruct;
@@ -15,6 +17,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import modelo.envios;
 import modelo.usuarios;
 
 /**
@@ -46,17 +49,18 @@ public class UsuarioControlador implements Serializable {
             System.out.println("Error al insertar usuario a la base de datos" + e.getMessage());
         }
     }
-    
-    public void actualizarDatos(){
-        try{
+
+    public void actualizarDatos() {
+        try {
             usuarioEJB.edit(usuario);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "informacion", "Datos actualizados correctamente"));       
-        }catch(Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo actualizar los datos"));       
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "informacion", "Datos actualizados correctamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo actualizar los datos"));
 
         }
     }
 
+   
     public usuarios getUsuario() {
         return usuario;
     }
