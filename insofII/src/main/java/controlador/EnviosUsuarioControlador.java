@@ -8,12 +8,16 @@ package controlador;
 import EJB.enviosFacadeLocal;
 import EJB.usuariosFacade;
 import EJB.usuariosFacadeLocal;
+import EJB.valoracionesFacadeLocal;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,6 +26,7 @@ import modelo.productos;
 import modelo.usuarios;
 import modelo.valoraciones;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.ToggleEvent;
 
 /**
  *
@@ -37,17 +42,20 @@ public class EnviosUsuarioControlador implements Serializable {
     @EJB
     private usuariosFacadeLocal usuariosFacade;
 
+    @EJB
+    private valoracionesFacadeLocal valoracionesFacade;
+
     @Inject
     private UsuarioControlador usuarioControlador;
 
     private List<envios> enviosUsuario;
 
     private envios envioSeleccionado;
-    
+
     private List<productos> productosEnvioSeleccionado;
-    
+
     private productos productoSeleccionado;
-    
+
     private valoraciones nuevaValoracion;
 
     @PostConstruct
@@ -110,7 +118,6 @@ public class EnviosUsuarioControlador implements Serializable {
 
     public void setProductoSeleccionado(productos productoSeleccionado) {
         this.productoSeleccionado = productoSeleccionado;
-        System.out.println(this.productoSeleccionado);
     }
 
     public valoraciones getNuevaValoracion() {
@@ -120,14 +127,26 @@ public class EnviosUsuarioControlador implements Serializable {
     public void setNuevaValoracion(valoraciones nuevaValoracion) {
         this.nuevaValoracion = nuevaValoracion;
     }
-    
-    public void onRowSelect(SelectEvent event) {
-        envioSeleccionado = (envios) event.getObject();
+
+    public void onRowToggle(ToggleEvent event) {
+        envioSeleccionado = (envios) event.getData();
         productosEnvioSeleccionado = enviosFacade.obtenerProductosEnvio(envioSeleccionado.getProductos());
     }
 
-    public void crearValoracion(){
-        
+    public void crearValoracion() {
+        //System.out.println(this.nuevaValoracion.toString());
+        usuarios usuario = (usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+
+        String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String horaActual = new SimpleDateFormat("HH:mm:ss").format(new Date());
+
+        this.nuevaValoracion.setFecha(fechaActual);
+        this.nuevaValoracion.setHora(horaActual);
+
+        this.nuevaValoracion.setIdUsuario(usuario);
+        this.nuevaValoracion.setIdProducto(productoSeleccionado);
+
+        valoracionesFacade.create(nuevaValoracion);
     }
 
     public String irCarrito() {
