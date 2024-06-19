@@ -26,27 +26,63 @@
                 <!-- Mensajes de confirmación/errores -->
                 <p:growl id="growl" showDetail="true" life="3000" />
 
-                <h:form id="perfilForm">
-                    <h:panelGrid columns="2" styleClass="datos-usuario">
-                        <h:outputLabel value="Nombre:" />
-                        <h:outputText value="#{usuarioControlador.usuario.nombre}" />
+                <h:panelGrid columns="2" columnClasses="perfil,valoraciones" styleClass="contenedor-usuario">
+                    <h:form id="perfilForm">
+                        <h:panelGrid columns="2" styleClass="datos-usuario">
+                            <h:outputLabel value="Nombre:" />
+                            <h:outputText value="#{usuarioControlador.usuario.nombre}" />
 
-                        <h:outputLabel value="Teléfono:" />
-                        <h:outputText value="#{usuarioControlador.usuario.telefono}" />
+                            <h:outputLabel value="Teléfono:" />
+                            <h:outputText value="#{usuarioControlador.usuario.telefono}" />
 
-                        <h:outputLabel value="Email:" />
-                        <h:outputText value="#{usuarioControlador.usuario.email}" />
+                            <h:outputLabel value="Email:" />
+                            <h:outputText value="#{usuarioControlador.usuario.email}" />
 
-                        <h:outputLabel value="Dirección:" />
-                        <h:outputText value="#{usuarioControlador.usuario.direccion}" />
+                            <h:outputLabel value="Dirección:" />
+                            <h:outputText value="#{usuarioControlador.usuario.direccion}" />
 
-                        <h:outputLabel value="Tarjeta del Banco:" />
-                        <h:outputText value="#{usuarioControlador.usuario.tarjetaBanco}" />
-                    </h:panelGrid>
+                            <h:outputLabel value="Tarjeta del Banco:" />
+                            <h:outputText value="#{usuarioControlador.usuario.tarjetaBanco}" />
+                        </h:panelGrid>
 
-                    <p:commandButton value="Editar" oncomplete="PF('dlg').show()" update="dialogo" />
+                        <p:commandButton value="Editar" oncomplete="PF('dlg').show()" update="dialogo" />
 
-                </h:form>
+                    </h:form>
+
+                    <h:form id="valoracionesForm">
+                        <p:dataTable value="#{usuarioControlador.valoracionesUsuario}" var="valoracion" paginator="true" rows="5"
+                                     styleClass="tabla-valoraciones" emptyMessage="Aun no has hecho valoraciones"
+                                     paginatorPosition="bottom" id="dataTableValoraciones">
+                            <f:facet name="header">
+                                Tus valoraciones
+                            </f:facet>
+                            <p:column headerText="Producto">
+                                <h:outputText value="#{valoracion.idProducto.nombre}" />
+                            </p:column>
+                            <p:column headerText="Puntuación">
+                                <p:rating value="#{valoracion.valoracion}" stars="5" disabled="true" />
+                            </p:column>
+                            <p:column headerText="Descripción">
+                                <h:outputText value="#{valoracion.descripcion}" />
+                            </p:column>
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{valoracion.fecha}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Hora">
+                                <h:outputText value="#{valoracion.hora}"/>
+                            </p:column>
+                            
+                            <p:column>
+                                <p:commandButton value="Eliminar valoración" icon="pi pi-trash"
+                                                 action="#{usuarioControlador.eliminarValoracion(valoracion)}"
+                                                 update=":valoracionesForm:dataTableValoraciones :growl"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+
+                </h:panelGrid>
 
                 <p:dialog header="Editar Datos" widgetVar="dlg" modal="true" id="dialogo">
                     <h:form id="dialogForm">

@@ -8,6 +8,7 @@ package EJB;
 import java.util.List;
 import javax.ejb.Local;
 import modelo.productos;
+import modelo.usuarios;
 import modelo.valoraciones;
 
 /**
@@ -33,4 +34,5 @@ public interface valoracionesFacadeLocal {
     
     public List<valoraciones> findByProducto(productos producto);
     
+    public List<valoraciones> findByUsuario(usuarios usuario);    
 }

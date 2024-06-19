@@ -49,5 +49,22 @@ public class valoracionesFacade extends AbstractFacade<valoraciones> implements 
             return null;
         }
     }
+    
+    @Override
+    public List<valoraciones> findByUsuario(usuarios usuario) {
+        String consulta = "SELECT v FROM valoraciones v WHERE v.idUsuario = :usuarios";
+
+        Query query = em.createQuery(consulta);
+
+        query.setParameter("usuarios", usuario);
+
+        List<valoraciones> resultado = query.getResultList();
+
+        if (!resultado.isEmpty()) {
+            return resultado;
+        } else {
+            return null;
+        }
+    }
 
 }

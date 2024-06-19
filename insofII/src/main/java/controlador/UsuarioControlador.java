@@ -7,6 +7,7 @@ package controlador;
 
 import EJB.enviosFacade;
 import EJB.usuariosFacadeLocal;
+import EJB.valoracionesFacadeLocal;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -19,6 +20,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import modelo.envios;
 import modelo.usuarios;
+import modelo.valoraciones;
 
 /**
  *
@@ -30,12 +32,18 @@ public class UsuarioControlador implements Serializable {
 
     private usuarios usuario;
 
+    private List<valoraciones> valoracionesUsuario;
+
     @EJB
     private usuariosFacadeLocal usuarioEJB;
+
+    @EJB
+    private valoracionesFacadeLocal valoracionEJB;
 
     @PostConstruct
     public void init() {
         usuario = (usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        valoracionesUsuario = valoracionEJB.findByUsuario(usuario);
         /*Si el usuario no está en la sesion*/
         if (usuario == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Usuario no encontrado en la sesion"));
@@ -60,7 +68,18 @@ public class UsuarioControlador implements Serializable {
         }
     }
 
-   
+    public void eliminarValoracion(valoraciones valoracion) {
+        try {
+            valoracionEJB.remove(valoracion);
+            this.valoracionesUsuario = valoracionEJB.findByUsuario(usuario);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "informacion", "Valoracion eliminada correctamente"));
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar la valoracion"));
+
+        }
+    }
+
     public usuarios getUsuario() {
         return usuario;
     }
@@ -75,6 +94,22 @@ public class UsuarioControlador implements Serializable {
 
     public void setUsuarioEJB(usuariosFacadeLocal usuarioEJB) {
         this.usuarioEJB = usuarioEJB;
+    }
+
+    public List<valoraciones> getValoracionesUsuario() {
+        return valoracionesUsuario;
+    }
+
+    public void setValoracionesUsuario(List<valoraciones> valoracionesUsuario) {
+        this.valoracionesUsuario = valoracionesUsuario;
+    }
+
+    public valoracionesFacadeLocal getValoracionEJB() {
+        return valoracionEJB;
+    }
+
+    public void setValoracionEJB(valoracionesFacadeLocal valoracionEJB) {
+        this.valoracionEJB = valoracionEJB;
     }
 
 }
