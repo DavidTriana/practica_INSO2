@@ -11,30 +11,6 @@
             Mis Productos
         </ui:define>
 
-        <ui:define name="top">
-            <div class="top-content">
-                <div class="top-left">
-                    <p>Bienvenido, #{usuarioControlador.usuario.nombre}</p>
-                </div>
-                <div class="top-center">
-                    <h:form>
-                        <p:commandLink action="#{enviosUsuarioControlador.irEnviosUsuario()}" value="Mis Pedidos" />
-                    </h:form>
-                    <h:form>
-                        <p:commandLink action="#{enviosUsuarioControlador.irProductos()}" value="Ver Productos" />
-                    </h:form>
-                    <h:form>
-                        <p:commandLink action="#{enviosUsuarioControlador.irPrincipal()}" value="Principal" />
-                    </h:form>
-                </div>
-                <div class="top-right">
-                    <h:form>
-                        <p:commandButton value="Carrito" icon="pi pi-cart-arrow-down" action="#{enviosUsuarioControlador.irCarrito()}"/>
-                    </h:form>
-                </div>
-            </div>
-        </ui:define>
-
         <ui:define name="content">
             <h:form id="formEnvios">
                 <p:dataTable value="#{enviosUsuarioControlador.enviosUsuario}" var="envio" paginator="true" rows="10"
@@ -112,11 +88,6 @@
                 </p:dialog>
             </h:form>
         </ui:define>
-
-        <ui:define name="bottom">
-            <h:outputText value="Envios del Usuario. Inforamción extra" />
-        </ui:define>
-
     </ui:composition>
 
 </html>

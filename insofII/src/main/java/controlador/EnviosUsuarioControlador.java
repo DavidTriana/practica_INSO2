@@ -149,19 +149,5 @@ public class EnviosUsuarioControlador implements Serializable {
         valoracionesFacade.create(nuevaValoracion);
     }
 
-    public String irCarrito() {
-        return "carritoUsuario.xhtml?faces-redirect=true";
-    }
-
-    public String irProductos() {
-        return "productosGeneral.xhtml?faces-redirect=true";
-    }
-
-    public String irEnviosUsuario() {
-        return "enviosUsuario.xhtml?faces-redirect=true";
-    }
-
-    public String irPrincipal() {
-        return "principalUsuario.xhtml?faces-redirect=true";
-    }
+    
 }

@@ -15,19 +15,40 @@ import javax.inject.Named;
  *
  * @author david
  */
-
 @Named
 @ViewScoped
-public class PlantillaBaseControlador implements Serializable{
-    
-    public void verificarYMostrar() throws IOException{
-        Object usuario = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-        
-        if(usuario == null){
-            String contextPath;
-            contextPath = FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath();
-            FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/faces/noPermisos.xhtml");
+public class PlantillaBaseControlador implements Serializable {
+
+    public void verificarYMostrar() throws IOException {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Object usuario = facesContext.getExternalContext().getSessionMap().get("usuario");
+        String currentPage = facesContext.getViewRoot().getViewId();
+
+        if (usuario == null && !currentPage.contains("login.xhtml")) {
+            String contextPath = facesContext.getExternalContext().getApplicationContextPath();
+            facesContext.getExternalContext().redirect(contextPath + "/faces/login.xhtml");
         }
     }
-    
+
+    public String irCarrito() {
+        return "carritoUsuario.xhtml?faces-redirect=true";
+    }
+
+    public String irProductos() {
+        return "productosGeneral.xhtml?faces-redirect=true";
+    }
+
+    public String irEnviosUsuario() {
+        return "enviosUsuario.xhtml?faces-redirect=true";
+    }
+
+    public String irPrincipal() {
+        return "principalUsuario.xhtml?faces-redirect=true";
+    }
+
+    public String logOut() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login.xhtml?faces-redirect=true";
+    }
+
 }
