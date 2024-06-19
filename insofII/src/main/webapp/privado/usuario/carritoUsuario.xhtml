@@ -35,19 +35,21 @@
                         <p:commandButton value="Eliminar Carrito" icon="pi pi-trash"
                                          action="#{carritoControlador.eliminarCarrito()}"
                                          ajax="false" />
-                        <h:commandButton value="Comprar" action="#{carritoControlador.comprarCarrito()}" />
+                        <p:commandButton value="Comprar" action="#{carritoControlador.comprarCarrito()}" 
+                                         process="@form" update="@form :growl" />
 
                     </h:form>
-                    <growl id="messages" showDetail="true" autoUpdate="true" closable="true" />
                 </h:panelGroup>
                 <h:panelGroup rendered="#{carritoControlador.carrito == null}">
                     <h:outputText value="El carrito está vacío." />
                 </h:panelGroup>
 
+                <!-- Growl para mostrar mensajes -->
+                <p:growl id="growl" showDetail="true" life="3000" />
             </ui:define>
 
             <ui:define name="bottom">
-                
+
             </ui:define>
 
         </ui:composition>
