@@ -33,7 +33,7 @@
                             <span>Buscar productos</span>
                             <div>
                                 <p:inputText id="globalFilter" onkeyup="PF('productosTable').filter()" style="width:20rem"
-                                             placeholder="Introduce busqueda" />
+                                             placeholder="Introduce busqueda" maxlength="45"/>
                                 <p:commandButton value="Buscar" update="@form" styleClass="ml-2"
                                                  action="#{productosGeneralControlador.toggleGlobalFilter()}"/>
                             </div>

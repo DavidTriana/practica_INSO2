@@ -88,19 +88,19 @@
                     <h:form id="dialogForm">
                         <h:panelGrid columns="2">
                             <h:outputLabel value="Nombre:" for="nombre" />
-                            <h:inputText id="nombre" value="#{usuarioControlador.usuario.nombre}" required="true" />
+                            <h:inputText id="nombre" value="#{usuarioControlador.usuario.nombre}" required="true" maxlength="45"/>
 
                             <h:outputLabel value="Teléfono:" for="telefono" />
-                            <h:inputText id="telefono" value="#{usuarioControlador.usuario.telefono}" required="true" />
+                            <h:inputText id="telefono" value="#{usuarioControlador.usuario.telefono}" required="true" maxlength="45"/>
 
                             <h:outputLabel value="Email:" for="email" />
-                            <h:inputText id="email" value="#{usuarioControlador.usuario.email}" required="true" />
+                            <h:inputText id="email" value="#{usuarioControlador.usuario.email}" required="true" maxlength="45"/>
 
                             <h:outputLabel value="Dirección:" for="direccion" />
-                            <h:inputText id="direccion" value="#{usuarioControlador.usuario.direccion}" required="true" />
+                            <h:inputText id="direccion" value="#{usuarioControlador.usuario.direccion}" required="true" maxlength="45"/>
 
                             <h:outputLabel value="Tarjeta del Banco:" for="tarjetaBanco" />
-                            <h:inputText id="tarjetaBanco" value="#{usuarioControlador.usuario.tarjetaBanco}" required="true" />
+                            <h:inputText id="tarjetaBanco" value="#{usuarioControlador.usuario.tarjetaBanco}" required="true" maxlength="45"/>
                         </h:panelGrid>
 
                         <p:commandButton value="Guardar" action="#{usuarioControlador.actualizarDatos}" oncomplete="PF('dlg').hide()" update=":perfilForm :growl" />

@@ -12,6 +12,9 @@
         </ui:define>
 
         <ui:define name="content">
+            
+             <p:growl id="growl" showDetail="true" life="3000" />
+             
             <h:form id="formEnvios">
                 <p:dataTable value="#{enviosUsuarioControlador.enviosUsuario}" var="envio" paginator="true" rows="10"
                              emptyMessage="Aun no tienes pedidos"
@@ -75,7 +78,7 @@
                             <p:rating id="rating" value="#{enviosUsuarioControlador.nuevaValoracion.valoracion}" stars="5" cancel="true" />
 
                             <h:outputLabel for="descripcion" value="Descripción:" />
-                            <p:inputTextarea id="descripcion" value="#{enviosUsuarioControlador.nuevaValoracion.descripcion}" rows="4" cols="30" maxlength="255"/>
+                            <p:inputTextarea id="descripcion" value="#{enviosUsuarioControlador.nuevaValoracion.descripcion}" rows="4" cols="30" maxlength="45"/>
 
                         </h:panelGrid>
 
