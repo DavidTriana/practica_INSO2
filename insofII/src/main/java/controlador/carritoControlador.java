@@ -61,26 +61,29 @@ public class carritoControlador implements Serializable {
     // Método para inicializar el carrito actual del usuario
     @PostConstruct
     public void init() {
-        usuarios user = usuarioControlador.getUsuario();
-        System.out.println("usuario en la sesion: " + user);
-        if (user != null) {
-            carrito = carritosFacade.findCarritoByUsuario(user);
-
-            if (carrito != null) {
-                if (carrito.getProductos() != null && !carrito.getProductos().isEmpty()) {
-                    String[] productosIds = carrito.getProductos().split(",");
-                    productosList = new ArrayList<>();
-                    double aux = 0;
-                    for (String productoId : productosIds) {
-                        productos product = productosFacade.find(Integer.parseInt(productoId));
-                        aux += product.getPrecio();
-                        productosList.add(product);
+        try {
+            usuarios user = usuarioControlador.getUsuario();
+            if (user != null) {
+                carrito = carritosFacade.findCarritoByUsuario(user);
+                if (carrito != null) {
+                    if (carrito.getProductos() != null && !carrito.getProductos().isEmpty()) {
+                        String[] productosIds = carrito.getProductos().split(",");
+                        productosList = new ArrayList<>();
+                        double aux = 0;
+                        for (String productoId : productosIds) {
+                            productos product = productosFacade.find(Integer.parseInt(productoId));
+                            aux += product.getPrecio();
+                            productosList.add(product);
+                        }
+                        carrito.setCosteTotal(aux);
                     }
-                    carrito.setCosteTotal(aux);
-                }
 
+                }
             }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo inicilizar el carrito" + e.toString()));
         }
+
     }
 
     public String comprarCarrito() {
@@ -104,27 +107,27 @@ public class carritoControlador implements Serializable {
             carritosFacade.removeCarritoByUsuario(user);
 
             carrito = null;
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Compra realizada con éxito", "Su compra ha sido procesada correctamente."));
             String toEmail = user.getEmail();
             String subject = "Compra realizada con éxito";
             StringBuilder body = new StringBuilder();
-        body.append("Gracias por su compra. Su pedido ha sido procesado correctamente.\n\n")
-            .append("Detalles del envío:\n")
-            .append("Fecha: ").append(fechaActual).append("\n")
-            .append("Hora: ").append(horaActual).append("\n")
-            .append("Estado: Pendiente\n")
-            .append("Productos:\n");
+            body.append("Gracias por su compra. Su pedido ha sido procesado correctamente.\n\n")
+                    .append("Detalles del envío:\n")
+                    .append("Fecha: ").append(fechaActual).append("\n")
+                    .append("Hora: ").append(horaActual).append("\n")
+                    .append("Estado: Pendiente\n")
+                    .append("Productos:\n");
 
-        for (productos producto : productosList) {
-            body.append("- ").append(producto.getNombre()).append(" - Precio: ").append(producto.getPrecio()).append("\n");
-        }
+            for (productos producto : productosList) {
+                body.append("- ").append(producto.getNombre()).append(" - Precio: ").append(producto.getPrecio()).append("\n");
+            }
 
-        body.append("\nPrecio Total: ").append(envio.getPrecioTotal()).append("\n")
-            .append("\nDirección de envío: ").append(user.getDireccion()).append("\n");
+            body.append("\nPrecio Total: ").append(envio.getPrecioTotal()).append("\n")
+                    .append("\nDirección de envío: ").append(user.getDireccion()).append("\n");
 
             Email.sendEmail(toEmail, subject, body.toString());
-            
+
             return "principalUsuario.xhtml?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Carrito vacío", "Agregue productos al carrito antes de realizar la compra."));

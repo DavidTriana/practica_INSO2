@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -147,6 +148,7 @@ public class ProductosGeneralControlador implements Serializable {
         usuarios usuario = (usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         this.carrito = carritosEJB.findCarritoByUsuario(usuario);
         carritosEJB.addProducto(carrito, productoSeleccionado);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "informacion", "Se ha añadido el producto a tu carrito"));
     }
 
     

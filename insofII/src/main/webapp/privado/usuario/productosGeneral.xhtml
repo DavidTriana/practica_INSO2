@@ -17,6 +17,9 @@
         </ui:define>
 
         <ui:define name="content">
+            
+            <p:growl id="growl" showDetail="true" life="3000" />
+            
             <h:form id="productForm">
                 <p:dataTable var="producto" value="#{productosGeneralControlador.obtenerListaProductosDisponibles()}" widgetVar="productosTable"
                              emptyMessage="No existen productos con estas especificaciones"
