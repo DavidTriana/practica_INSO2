@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import EJB.enviosFacadeLocal;
 import EJB.productosFacadeLocal;
 import EJB.vendedoresFacadeLocal;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import modelo.vendedores;
 import modelo.productos;
 import org.primefaces.PrimeFaces;
@@ -39,6 +41,25 @@ public class vendedorControlador implements Serializable{
     private BarChartModel barModel;
     private int anchoGrafico;
 
+    private BarChartModel barModelProfit;
+
+    public BarChartModel getBarModelProfit() {
+        return barModelProfit;
+    }
+
+    public void setBarModelProfit(BarChartModel barModelProfit) {
+        this.barModelProfit = barModelProfit;
+    }
+
+    public enviosFacadeLocal getEnviosEJB() {
+        return enviosEJB;
+    }
+
+    public void setEnviosEJB(enviosFacadeLocal enviosEJB) {
+        this.enviosEJB = enviosEJB;
+    }
+
+    
     public int getAnchoGrafico() {
         return anchoGrafico;
     }
@@ -71,6 +92,9 @@ public class vendedorControlador implements Serializable{
     @EJB
     private productosFacadeLocal productoEJB;
     
+    @EJB
+    private enviosFacadeLocal enviosEJB;
+    
     @PostConstruct
     public void init(){
         vendedor = new vendedores();
@@ -81,8 +105,9 @@ public class vendedorControlador implements Serializable{
         
         System.out.println("el vendedor es: "+ vendedor.getNombre());
         
-        productos = productoEJB.obtenerProductosDeVendedor(vendedor);
         crearTabla();
+        
+        nuevoProducto.setMarca("Marca propia");
     }
     public void insertarVendedor(){
         try{
@@ -93,26 +118,50 @@ public class vendedorControlador implements Serializable{
     }
 
     private void crearTabla() {
-    
+        
+        productos = productoEJB.obtenerProductosDeVendedor(vendedor);
+        nuevoProducto.setMarca("Marca propia");
+        
+        
+        List<productos> productosCompradosTotales = enviosEJB.obtenerTodosProductosEnvios();
+        List<productos> productosCompradosActuales = new ArrayList<>();
+        
+        System.out.println(productosCompradosTotales);
+        // Se calculan los productos que se van a representar en las graficas del dashboard
+        for (int i=0; i<productosCompradosTotales.size(); i++) {
+        
+            for (int j=0; j<productos.size(); j++){
+            
+                if(productosCompradosTotales.get(i).getIdProducto() == productos.get(j).getIdProducto()){
+                    
+                    productosCompradosActuales.add(productosCompradosTotales.get(i));
+                }
+            }
+        }
+        
+        
+        barModel = null;
         barModel = new BarChartModel();
         
         ChartData data = new ChartData();
 
+        //datos de la tabla de ventas
         BarChartDataSet barDataSet = new BarChartDataSet();
-        barDataSet.setLabel("Sales");
+        barDataSet.setLabel("Ventas");
 
-        // Datos de ventas por producto
         
         List<String> nombresProductos = new ArrayList<>();
-        List<Number> preciosProductos = new ArrayList<>();
+        List<Number> ventasProductos = new ArrayList<>();
+        List<Number> beneficioProductos = new ArrayList<>();
         
         for (int i=0; i<productos.size(); i++){
             
             nombresProductos.add(productos.get(i).getNombre());
-            preciosProductos.add(productos.get(i).getPrecio());
+            ventasProductos.add(contarRepeticionesProducto(productosCompradosActuales, productos.get(i)));
+            beneficioProductos.add(contarRepeticionesProducto(productosCompradosActuales, productos.get(i)) * productos.get(i).getPrecio());
         }
         
-        barDataSet.setData(preciosProductos);
+        barDataSet.setData(ventasProductos);
         barDataSet.setBackgroundColor("rgba(75, 192, 192, 0.2)");
         barDataSet.setBorderColor("rgb(75, 192, 192)");
         barDataSet.setBorderWidth(1);
@@ -123,9 +172,45 @@ public class vendedorControlador implements Serializable{
         data.setLabels(labels);
 
         barModel.setData(data);
+        
+        
+        //datos de la tabla de beneficios
+        BarChartDataSet barDataSetProfits = new BarChartDataSet();
+        barDataSetProfits.setLabel("Ingresos");
 
+        barDataSetProfits.setData(beneficioProductos);
+        barDataSetProfits.setBackgroundColor("rgba(255, 165, 0, 0.2)");
+        barDataSetProfits.setBorderColor("rgb(255, 165, 0)");
+        barDataSetProfits.setBorderWidth(1);
+        
+        ChartData dataProfit = new ChartData();
+
+
+        dataProfit.addChartDataSet(barDataSetProfits);
+        dataProfit.setLabels(nombresProductos);
+        
+        barModelProfit = null;
+        barModelProfit = new BarChartModel();
+        barModelProfit.setData(dataProfit);
+        
+        
         anchoGrafico = productos.size() > 6 ? productos.size() * 100 : 600;
     
+    }
+    
+    public int contarRepeticionesProducto(List<productos> listaProductos, productos producto) {
+    
+        int contador = 0;
+            
+        for (int i=0; i<listaProductos.size(); i++){
+            
+            if(listaProductos.get(i).getIdProducto() == producto.getIdProducto()){
+                
+                contador++;
+            }
+        }
+        
+        return contador;
     }
     
     public vendedores getVendedor() {
@@ -182,21 +267,31 @@ public class vendedorControlador implements Serializable{
         System.out.println("SE VA A GUARDAR UN PRODUCTO NUEVO: "+ nuevoProducto.getNombre());
                 
         nuevoProducto.setVendedores(vendedor);
+        nuevoProducto.setCantidad(1);
         
         productoEJB.create(nuevoProducto);
+        
+        productos = productoEJB.obtenerProductosDeVendedor(vendedor);
+        crearTabla();
         //TODO logica de guardado del nuevo producto    
         
         //nuevoProducto = new productos();
     }
     
-    public void eliminarProducto(){
+    public void eliminarProducto(int idProducto){
+        
+        
+        System.out.println("se va a eliminar un producto "+ idProducto);
+        productoEJB.ocultarProducto(idProducto);
     
-        System.out.println("se va a eliminar un producto");
-    
+        crearTabla();
     }
     
-    public String refrescar(){
     
-        return "privado/vendedor/principalVendedor.xhtml?faces-redirect=true";
+    public String logout() {
+        
+        //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", null);	
+        
+        return "login?faces-redirect=true";
     }
 }

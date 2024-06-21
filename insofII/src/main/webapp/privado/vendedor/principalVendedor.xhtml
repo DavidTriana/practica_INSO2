@@ -2,87 +2,145 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Productos del Vendedor</title>
+        <title>Vendedor</title>
+        <h:outputStylesheet library="css" name="header.css"/>
     </h:head>
     <h:body>
-        
-        <p:panelGrid columns="2" style="width:100%;">
+        <ui:composition template="./../../WEB-INF/template/plantillaBase.xhtml">
 
-            <p:panel header="Lista de Productos">
-                <h:form id="formProductos">
-                    <h2>Productos del Vendedor</h2>
-                    <p:dataTable id="tablaProductos" value="#{vendedorControlador.productos}" var="producto" editable="true"
-                                 selection="#{vendedorControlador.productoSeleccionado}" 
-                                 selectionMode="single" rowKey="#{producto.idProducto}" 
-                                 emptyMessage="No has publicado ningún producto"
-                                 scrollable="true" scrollHeight="400px">
-                        <p:ajax event="rowSelect" update="formProductoDialog" oncomplete="PF('productoDialog').show();" />
-                        <p:column headerText="ID">
-                            <h:outputText value="#{producto.idProducto}" />
-                        </p:column>
-                        <p:column headerText="Nombre">
-                            <h:outputText value="#{producto.nombre}" />
-                        </p:column>
-                        <p:column headerText="Descripción">
-                            <h:outputText value="#{producto.descripcion}" />
-                        </p:column>
-                        <p:column headerText="Precio">
-                            <h:outputText value="#{producto.precio}" />
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton value="Crear Nuevo Producto" icon="pi pi-plus" oncomplete="PF('dlgNuevoProducto').show();" update=":formProductos:tablaProductos"/>
-                </h:form>
-            </p:panel>
-            <p:panel header="Gráfico de Ventas">
-                <div style="width: 100%; overflow-x: auto;">
-                    <p:barChart id="barChart" model="#{vendedorControlador.barModel}" 
-                                 style="width: #{vendedorControlador.anchoGrafico}px; height: 300px;" />
+            <ui:define name="top">
+                <div style="display: flex; align-items: center; justify-content: space-between; height: 100px">
+                    <h2 style="font-size: 40px">Bienvenido, #{vendedorControlador.vendedor.nombre}</h2>
+                    <h:form id="formHeader">
+                        <div style="display: flex; align-items: center;">
+                            <p:commandButton id="perfilButton" icon="pi pi-user" title="Perfil" styleClass="ui-button-icon-only" onmouseover="PF('perfilMenu').show()" />
+                            <p:overlayPanel id="perfilMenu" for="perfilButton">
+                                <p:menu>
+                                    <p:menuitem value="Configuración del usuario" icon="pi pi-cog" />
+                                    <p:menuitem value="Cerrar sesión" action="#{vendedorControlador.logout}" ajax="false" icon="pi pi-sign-out" />
+                                </p:menu>
+                            </p:overlayPanel>
+                        </div>
+                    </h:form>
                 </div>
-            </p:panel>
-                
-        </p:panelGrid>
+            </ui:define>
+            <ui:define name="content">
 
-         <p:dialog header="Información del Producto" widgetVar="productoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="formProductoDialog">
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="ID:" />
-                    <h:outputText value="#{vendedorControlador.productoSeleccionado.idProducto}" />
+                <p:panelGrid columns="2" style="width:100%;">
 
-                    <h:outputLabel value="Nombre:" />
-                    <h:outputText value="#{vendedorControlador.productoSeleccionado.nombre}" />
-
-                    <h:outputLabel value="Descripción:" />
-                    <h:outputText value="#{vendedorControlador.productoSeleccionado.descripcion}" />
-
-                    <h:outputLabel value="Precio:" />
-                    <h:outputText value="#{vendedorControlador.productoSeleccionado.precio}" />
-
-                    <p:commandButton value="Eliminar" action="#{vendedorControlador.eliminarProducto}" update=":formProductos:tablaProductos" oncomplete="PF('productoDialog').hide();" />
-                </h:panelGrid>
-            </h:form>
-        </p:dialog>
-        
-        <p:dialog header="Nuevo Producto" widgetVar="dlgNuevoProducto" modal="true" resizable="false" id="dialogNuevoProducto">
-            <h:form id="formNuevoProducto">
-                <h:panelGrid columns="2">
-                    <h:outputLabel for="nombre" value="Nombre:" />
-                    <p:inputText id="nombre" value="#{vendedorControlador.nuevoProducto.nombre}" required="true" />
-
-                    <h:outputLabel for="descripcion" value="Descripción:" />
-                    <p:inputTextarea id="descripcion" value="#{vendedorControlador.nuevoProducto.descripcion}" required="true" />
-
-                    <h:outputLabel for="precio" value="Precio:" />
-                    <p:inputText id="precio" value="#{vendedorControlador.nuevoProducto.precio}" required="true" />
-
+                    <p:panel header="Tus productos">
+                        <h:form id="formProductos">
+                            <p:dataTable id="tablaProductos" value="#{vendedorControlador.productos}" var="producto" editable="true"
+                                         selection="#{vendedorControlador.productoSeleccionado}" 
+                                         selectionMode="single" rowKey="#{producto.idProducto}" 
+                                         emptyMessage="No has publicado ningún producto"
+                                         scrollable="true" scrollHeight="400px">
+                                <p:ajax event="rowSelect" update="formProductoDialog" oncomplete="PF('productoDialog').show();" />
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{producto.idProducto}" />
+                                </p:column>
+                                <p:column headerText="Nombre">
+                                    <h:outputText value="#{producto.nombre}" />
+                                </p:column>
+                                <p:column headerText="Marca">
+                                    <h:outputText value="#{producto.marca}" />
+                                </p:column>
+                                <p:column headerText="Precio">
+                                    <h:outputText value="#{producto.precio}€" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:commandButton value="Crear Nuevo Producto" icon="pi pi-plus" oncomplete="PF('dlgNuevoProducto').show();" update=":formProductos:tablaProductos"/>
+                        </h:form>
+                    </p:panel>
                     
-                </h:panelGrid>
+                    <p:panelGrid columns="1" style="width:100%">
+                         <p:panel header="Gráfico de Ventas">
+                        <div style="width: 100%; overflow-x: auto;">
+                            <p:barChart id="barChart" model="#{vendedorControlador.barModel}" 
+                                        style="width: #{vendedorControlador.anchoGrafico}px; height: 300px;" />
+                        </div>
+                    </p:panel> 
+                    <p:panel header="Gráfico de ingresos">
+                        <div style="width: 100%; overflow-x: auto;">
+                            <p:barChart id="barChart2" model="#{vendedorControlador.barModelProfit}" 
+                                        style="width: #{vendedorControlador.anchoGrafico}px; height: 300px;" />
+                        </div>
+                    </p:panel>
+                    </p:panelGrid>
+                   
+                </p:panelGrid>
 
-                <p:commandButton value="Guardar" action="#{vendedorControlador.guardarNuevoProducto}" update=":formProductos" oncomplete="PF('dlgNuevoProducto').hide();"/>
-                <p:commandButton value="Cancelar" onclick="PF('dlgNuevoProducto').hide();" type="button" />
-            </h:form>
-        </p:dialog>
-        
+                <p:dialog header="Información del Producto" widgetVar="productoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="formProductoDialog">
+                    <h:form>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="ID:" />
+                            <h:outputText value="#{vendedorControlador.productoSeleccionado.idProducto}" />
+
+                            <h:outputLabel value="Nombre:" />
+                            <h:outputText value="#{vendedorControlador.productoSeleccionado.nombre}" />
+                            
+                            <h:outputLabel value="Categoria" />
+                            <h:outputText value="#{vendedorControlador.productoSeleccionado.categoria}" />
+                            
+                            <h:outputLabel value="Marca" />
+                            <h:outputText value="#{vendedorControlador.productoSeleccionado.marca}" />
+
+                            <h:outputLabel value="Descripción:" />
+                            <h:outputText value="#{vendedorControlador.productoSeleccionado.descripcion}" />
+
+                            <h:outputLabel value="Precio:" />
+                            <h:outputText value="#{vendedorControlador.productoSeleccionado.precio}" />
+
+                            <p:commandButton value="Eliminar" action="#{vendedorControlador.eliminarProducto(vendedorControlador.productoSeleccionado.idProducto)}" update=":formProductos:tablaProductos" oncomplete="PF('productoDialog').hide();" />
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog header="Nuevo Producto" widgetVar="dlgNuevoProducto" modal="true" resizable="false" id="dialogNuevoProducto">
+                    <h:form id="formNuevoProducto">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel for="nombre" value="Nombre:" />
+                            <p:inputText id="nombre" value="#{vendedorControlador.nuevoProducto.nombre}" required="true" />
+                            
+                            <h:outputLabel for="nombre" value="Categoria" />
+                            <p:inputText id="categoria" value="#{vendedorControlador.nuevoProducto.categoria}" required="true" />
+                            
+                            <h:outputLabel for="descripcion" value="Marca: " />
+                            <p:inputText id="marca" value="#{vendedorControlador.nuevoProducto.marca}" required="true" />
+
+                            <h:outputLabel for="descripcion" value="Descripción:" />
+                            <p:inputTextarea id="descripcion" value="#{vendedorControlador.nuevoProducto.descripcion}" required="true" />
+
+                            <h:outputLabel for="precio" value="Precio:" />
+                            <p:inputText id="precio" value="#{vendedorControlador.nuevoProducto.precio}" required="true" />
+
+
+                        </h:panelGrid>
+
+                        <p:commandButton value="Guardar" action="#{vendedorControlador.guardarNuevoProducto}" update=":formProductos" oncomplete="PF('dlgNuevoProducto').hide();"/>               
+                        <p:commandButton value="Cancelar" onclick="PF('dlgNuevoProducto').hide();" type="button" />
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+            
+            <ui:define name="bottom">
+                <div class="footer-content">
+                    <p>Contáctenos: <br/>
+                        Dirección: Calle Ejemplo, Ciudad, País <br/>
+                        Teléfono: +123456789 <br/>
+                        Correo electrónico: parctInso2@gmail.com</p>
+                    <p>Envíos: Gratis para compras superiores a 3 pesos </p>
+                    <ul class="enlaces-legales">
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos de Uso</a></li>
+                        <li><a href="#">Políticas de Devolución</a></li>
+                    </ul>
+                </div>
+
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>

@@ -43,9 +43,25 @@ public class productosFacade extends AbstractFacade<productos> implements produc
         
         query.setParameter("param1", vendedor);        
         listaProductos = query.getResultList();
+     
+        for (int i = listaProductos.size() - 1; i >= 0; i--) {
+            if (listaProductos.get(i).getCantidad() != 1) {
+                listaProductos.remove(i);
+            }
+        }
         
-        System.out.println(listaProductos.get(0));
+        //System.out.println(listaProductos.get(0));
         
         return listaProductos;
+    }
+    
+    @Override
+    public void ocultarProducto(int idProducto){
+    
+        String consulta = "UPDATE productos p SET p.cantidad = 0 WHERE p.idProducto = :param1";
+        Query query = em.createQuery(consulta);
+        query.setParameter("param1", idProducto);
+        query.executeUpdate();
+
     }
 }

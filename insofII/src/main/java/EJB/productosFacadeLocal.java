@@ -33,4 +33,6 @@ public interface productosFacadeLocal {
     
     List<productos> obtenerProductosDeVendedor(vendedores vendedor);
     
+    void ocultarProducto(int idProducto);
+    
 }
