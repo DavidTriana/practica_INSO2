@@ -36,4 +36,8 @@ public interface enviosFacadeLocal {
     
     List<productos> obtenerProductosEnvio(String productosString);
     
+    List<productos> obtenerListaProductosEnvio(String productosString);
+    
+    List<productos> obtenerTodosProductosEnvios();
+    
 }
