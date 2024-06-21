@@ -16,27 +16,20 @@
 
     <h:body>
 
-        <div id="top" class="top-content">
-            <div class="top-left">
-                <p>Bienvenido, #{usuarioControlador.usuario.nombre}</p>
-            </div>
-            <div class="top-center">
-                <h:form>
-                    <p:commandLink styleClass="p-commandlink" action="#{plantillaBaseControlador.irEnviosUsuario()}" value="Mis Pedidos" />
-                </h:form>
-                <h:form>
-                    <p:commandLink styleClass="p-commandlink" action="#{plantillaBaseControlador.irProductos()}" value="Ver Productos" />
-                </h:form>
-                <h:form>
-                    <p:commandLink styleClass="p-commandlink" action="#{plantillaBaseControlador.irPrincipal()}" value="Principal" />
-                </h:form>
-            </div>
-            <div class="top-right">
-                <h:form>
-                    <p:commandButton value="Carrito" icon="pi pi-shopping-cart" action="#{plantillaBaseControlador.irCarrito()}" styleClass="p-commandbutton"/>
-                </h:form>
-                <h:form>
-                    <p:commandButton value="Logout" icon="pi pi-sign-out" action="#{plantillaBaseControlador.logOut()}" styleClass="p-commandbutton"/>
+        <div id="top">
+            <div style="display: flex; align-items: center; justify-content: space-between; height: 100px">
+                <h2 style="font-size: 40px">Bienvenido, #{vendedorControlador.vendedor.nombre}</h2>
+                <h:form id="formHeader">
+                    <div style="display: flex; align-items: center;">
+                        <p:commandButton id="perfilButton" icon="pi pi-user" title="Perfil" styleClass="ui-button-icon-only" onmouseover="PF('perfilMenu').show()" />
+                        <p:overlayPanel id="perfilMenu" for="perfilButton">
+                            <p:menu>
+                                <p:menuitem value="Página principal" action="#{vendedorControlador.irPaginaPrincipal}" icon="pi pi-home" />
+                                <p:menuitem value="Configuración" action="#{vendedorControlador.irConfiguracion}" icon="pi pi-cog" />
+                                <p:menuitem value="Cerrar sesión" action="#{vendedorControlador.logOut}" ajax="false" icon="pi pi-sign-out" />
+                            </p:menu>
+                        </p:overlayPanel>
+                    </div>
                 </h:form>
             </div>
         </div>

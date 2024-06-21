@@ -36,10 +36,10 @@ public class vendedoresFacade extends AbstractFacade<vendedores> implements vend
     
     @Override
     public vendedores verificarVendedor(vendedores vendedor){
-        String consulta = "FROM vendedores u WHERE u.nombre=:param1 and u.contraseña=:param2";
+        String consulta = "FROM vendedores u WHERE u.email=:param1 and u.contraseña=:param2";
         Query query = em.createQuery(consulta);
         
-        query.setParameter("param1", vendedor.getNombre());
+        query.setParameter("param1", vendedor.getEmail());
         query.setParameter("param2", vendedor.getContraseña());
         
         List<vendedores> resultado = query.getResultList();

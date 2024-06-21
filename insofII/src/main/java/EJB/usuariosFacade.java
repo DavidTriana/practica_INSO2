@@ -33,11 +33,11 @@ public class usuariosFacade extends AbstractFacade<usuarios> implements usuarios
 
     @Override
     public usuarios verificarUsuario(usuarios usuario) {
-        String consulta = "FROM usuarios u WHERE u.nombre=:param1 and u.contrasenia=:param2";
+        String consulta = "FROM usuarios u WHERE u.email=:param1 and u.contrasenia=:param2";
 
         Query query = em.createQuery(consulta);
 
-        query.setParameter("param1", usuario.getNombre());
+        query.setParameter("param1", usuario.getEmail());
         query.setParameter("param2", usuario.getContrasenia());
         
         List<usuarios> resultado = query.getResultList();

@@ -3,29 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Vendedor</title>
         <h:outputStylesheet library="css" name="header.css"/>
     </h:head>
     <h:body>
-        <ui:composition template="./../../WEB-INF/template/plantillaBase.xhtml">
+        <ui:composition template="./../../WEB-INF/template/plantillaVendedor.xhtml">
 
             <ui:define name="top">
-                <div style="display: flex; align-items: center; justify-content: space-between; height: 100px">
-                    <h2 style="font-size: 40px">Bienvenido, #{vendedorControlador.vendedor.nombre}</h2>
-                    <h:form id="formHeader">
-                        <div style="display: flex; align-items: center;">
-                            <p:commandButton id="perfilButton" icon="pi pi-user" title="Perfil" styleClass="ui-button-icon-only" onmouseover="PF('perfilMenu').show()" />
-                            <p:overlayPanel id="perfilMenu" for="perfilButton">
-                                <p:menu>
-                                    <p:menuitem value="Configuración del usuario" icon="pi pi-cog" />
-                                    <p:menuitem value="Cerrar sesión" action="#{vendedorControlador.logout}" ajax="false" icon="pi pi-sign-out" />
-                                </p:menu>
-                            </p:overlayPanel>
-                        </div>
-                    </h:form>
-                </div>
+                
             </ui:define>
             <ui:define name="content">
 
@@ -103,16 +91,19 @@
                     <h:form id="formNuevoProducto">
                         <h:panelGrid columns="2">
                             <h:outputLabel for="nombre" value="Nombre:" />
-                            <p:inputText id="nombre" value="#{vendedorControlador.nuevoProducto.nombre}" required="true" />
+                            <p:inputText id="nombre" value="#{vendedorControlador.nuevoProducto.nombre}" required="true" maxlength="45"/>
                             
-                            <h:outputLabel for="nombre" value="Categoria" />
-                            <p:inputText id="categoria" value="#{vendedorControlador.nuevoProducto.categoria}" required="true" />
+                            <h:outputLabel for="nombre" value="Categoría: " />
+                            <p:selectOneMenu id="categoria" value="#{vendedorControlador.nuevoProducto.categoria}" required="true">
+                                <f:selectItem itemLabel="Seleccionar categoría" itemValue="" />
+                                <f:selectItems value="#{vendedorControlador.categorias}" />
+                            </p:selectOneMenu>
                             
-                            <h:outputLabel for="descripcion" value="Marca: " />
-                            <p:inputText id="marca" value="#{vendedorControlador.nuevoProducto.marca}" required="true" />
+                            <h:outputLabel for="marca" value="Marca: " />
+                            <p:inputText id="marca" value="#{vendedorControlador.nuevoProducto.marca}" required="true" maxlength="45"/>
 
                             <h:outputLabel for="descripcion" value="Descripción:" />
-                            <p:inputTextarea id="descripcion" value="#{vendedorControlador.nuevoProducto.descripcion}" required="true" />
+                            <p:inputTextarea id="descripcion" value="#{vendedorControlador.nuevoProducto.descripcion}" required="true" maxlength="200"/>
 
                             <h:outputLabel for="precio" value="Precio:" />
                             <p:inputText id="precio" value="#{vendedorControlador.nuevoProducto.precio}" required="true" />
@@ -127,18 +118,6 @@
             </ui:define>
             
             <ui:define name="bottom">
-                <div class="footer-content">
-                    <p>Contáctenos: <br/>
-                        Dirección: Calle Ejemplo, Ciudad, País <br/>
-                        Teléfono: +123456789 <br/>
-                        Correo electrónico: parctInso2@gmail.com</p>
-                    <p>Envíos: Gratis para compras superiores a 3 pesos </p>
-                    <ul class="enlaces-legales">
-                        <li><a href="#">Política de Privacidad</a></li>
-                        <li><a href="#">Términos de Uso</a></li>
-                        <li><a href="#">Políticas de Devolución</a></li>
-                    </ul>
-                </div>
 
             </ui:define>
         </ui:composition>

@@ -76,9 +76,9 @@ public class LoginControlador implements Serializable {
                 System.out.println(usuarioVerificado.toString());
                 navegacion = "privado/usuario/principalUsuario.xhtml?faces-redirect=true";
             } else {
-                //Si no es usuario, Verificar si es un vendedor
+                // si no es usuario, se verifica si es un vendedor
                 vendedores vendedorVerificado = new vendedores();
-                vendedorVerificado.setNombre(usuario.getNombre());
+                vendedorVerificado.setEmail(usuario.getEmail());
                 vendedorVerificado.setContraseña(usuario.getContrasenia());
                 vendedorVerificado = vendedorEJB.verificarVendedor(vendedorVerificado);
                 if (vendedorVerificado != null) {

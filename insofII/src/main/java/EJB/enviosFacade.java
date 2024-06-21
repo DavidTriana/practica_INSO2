@@ -125,7 +125,7 @@ public class enviosFacade extends AbstractFacade<envios> implements enviosFacade
             
             productosEnvio = obtenerListaProductosEnvio(listaEnvios.get(i).getProductos());
             
-            System.out.println("PRODUCTOS ENVIO ES "+ productosEnvio);
+            // System.out.println("PRODUCTOS ENVIO ES "+ productosEnvio);
             
             for (int j=0; j<productosEnvio.size(); j++){
                 

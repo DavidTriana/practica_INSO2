@@ -42,6 +42,16 @@ public class vendedorControlador implements Serializable{
     private int anchoGrafico;
 
     private BarChartModel barModelProfit;
+    
+    private List<String> categorias;
+
+    public List<String> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<String> categorias) {
+        this.categorias = categorias;
+    }
 
     public BarChartModel getBarModelProfit() {
         return barModelProfit;
@@ -97,17 +107,29 @@ public class vendedorControlador implements Serializable{
     
     @PostConstruct
     public void init(){
+        
         vendedor = new vendedores();
         nuevoProducto = new productos();
-        //TODO productos = productoEJB.findAll();
         
         vendedor = (vendedores) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         
-        System.out.println("el vendedor es: "+ vendedor.getNombre());
+        //System.out.println("el vendedor es: "+ vendedor.getNombre());
         
         crearTabla();
         
         nuevoProducto.setMarca("Marca propia");
+        
+        categorias = new ArrayList<>();
+        categorias.add("Electrónica");
+        categorias.add("Videojuegos");
+        categorias.add("Juguetes");
+        categorias.add("Ropa");
+        categorias.add("Hogar");
+        categorias.add("Alimentación");
+        categorias.add("Papelería");
+        categorias.add("Belleza y cosméticos");
+        categorias.add("Misceláneo");
+
     }
     public void insertarVendedor(){
         try{
@@ -126,7 +148,7 @@ public class vendedorControlador implements Serializable{
         List<productos> productosCompradosTotales = enviosEJB.obtenerTodosProductosEnvios();
         List<productos> productosCompradosActuales = new ArrayList<>();
         
-        System.out.println(productosCompradosTotales);
+        //System.out.println(productosCompradosTotales);
         // Se calculan los productos que se van a representar en las graficas del dashboard
         for (int i=0; i<productosCompradosTotales.size(); i++) {
         
@@ -264,7 +286,7 @@ public class vendedorControlador implements Serializable{
     
     public void guardarNuevoProducto() {
     
-        System.out.println("SE VA A GUARDAR UN PRODUCTO NUEVO: "+ nuevoProducto.getNombre());
+        // sSystem.out.println("SE VA A GUARDAR UN PRODUCTO NUEVO: "+ nuevoProducto.getNombre());
                 
         nuevoProducto.setVendedores(vendedor);
         nuevoProducto.setCantidad(1);
@@ -281,17 +303,23 @@ public class vendedorControlador implements Serializable{
     public void eliminarProducto(int idProducto){
         
         
-        System.out.println("se va a eliminar un producto "+ idProducto);
+        //System.out.println("se va a eliminar un producto "+ idProducto);
         productoEJB.ocultarProducto(idProducto);
     
         crearTabla();
     }
     
     
-    public String logout() {
-        
-        //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", null);	
-        
-        return "login?faces-redirect=true";
+    public String logOut() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login.xhtml?faces-redirect=true";
+    }
+    
+    public String irConfiguracion() {
+        return "configVendedor.xhtml?faces-redirect=true";
+    }
+    
+    public String irPaginaPrincipal() {
+        return "principalVendedor.xhtml?faces-redirect=true";
     }
 }

@@ -19,27 +19,27 @@
             <h:panelGroup id="formularioRegistro">
                 <p:panel rendered="#{registerControlador.tipoUsuario eq 'normal'}" header="Registro de Usuario Normal">
                     <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" id="grid">
-                        <p:outputLabel value="Inserte el nombre del usuario" for="txtNombre"/>
+                        <p:outputLabel value="Nombre de usuario" for="txtNombre"/>
                         <p:inputText value="#{registerControlador.nombreUsuario}" required="true" requiredMessage="Nombre es un campo obligatorio" id="txtNombre" maxlength="45"/>
                         <p:message for="txtNombre" display="text" />
 
-                        <p:outputLabel value="Inserte el telefono del usuario" for="txtTelefono"/>
+                        <p:outputLabel value="Teléfono" for="txtTelefono"/>
                         <p:inputText value="#{registerControlador.telefonoUsuario}" required="true" requiredMessage="Telefono es un campo obligatorio" id="txtTelefono" maxlength="45"/>
                         <p:message for="txtTelefono" display="text" />
 
-                        <p:outputLabel value="Inserte el email del usuario" for="txtEmail"/>
+                        <p:outputLabel value="Email de contacto" for="txtEmail"/>
                         <p:inputText value="#{registerControlador.emailUsuario}" required="true" requiredMessage="Email es un campo obligatorio" id="txtEmail"  maxlength="45"/>
                         <p:message for="txtEmail" display="text" />
 
-                        <p:outputLabel value="Inserte el contraseña del usuario" for="txtContrasenia"/>
+                        <p:outputLabel value="Contraseña" for="txtContrasenia"/>
                         <p:password value="#{registerControlador.contraseniaUsuario}" required="true" requiredMessage="Contraseña es un campo obligatorio" id="txtContrasenia" feedback="true" promptLabel="Ingresa tu contraseña" weakLabel="Débil"
                                     goodLabel="Buena" strongLabel="Fuerte" toggleMask="true" redisplay="true" maxlength="45"/>
                         <p:message for="txtContrasenia" display="text" />
 
-                        <p:outputLabel value="Inserte el direccion del usuario" for="txtDireccion"/>
+                        <p:outputLabel value="Dirección " for="txtDireccion"/>
                         <p:inputText value="#{registerControlador.direccionUsuario}" required="true" requiredMessage="Dirección es un campo obligatorio" id="txtDireccion" maxlength="45"/>
                         <p:message for="txtDireccion" display="text" />
-                        <p:outputLabel value="Inserte el tarjeta del banco del usuario" for="txtTarjeta"/>
+                        <p:outputLabel value="Tarjeta bancaria" for="txtTarjeta"/>
                         <p:inputText value="#{registerControlador.tarjetaBancoUsuario}" required="true" requiredMessage="Numero de tarjeta es un campo obligatorio" id="txtTarjeta" maxlength="45"/>
                         <p:message for="txtTarjeta" display="text" />
                     </p:panelGrid>

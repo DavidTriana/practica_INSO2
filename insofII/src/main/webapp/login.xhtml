@@ -65,12 +65,12 @@
             <h:form id="formLogin" styleClass="login-form">
                 <h2 class="login-title">Inicio de Sesión</h2>
                 <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" id="gridLogin">
-                    <p:outputLabel value="Usuario:" for="txtNombre"/>
-                    <p:inputText value="#{loginControlador.usuario.nombre}" required="true" requiredMessage="Nombre es un campo obligatorio" id="txtNombre"/>
+                    <p:outputLabel value="Email:" for="txtNombre"/>
+                    <p:inputText value="#{loginControlador.usuario.email}" required="true" requiredMessage="Es necesario introducir el email" id="txtNombre"/>
                     <p:message for="txtNombre" display="text"/>
 
                     <p:outputLabel value="Contraseña:" for="txtContrasenia"/>
-                    <p:password value="#{loginControlador.usuario.contrasenia}" required="true" requiredMessage="Contraseña es un campo obligatorio" id="txtContrasenia"/>
+                    <p:password value="#{loginControlador.usuario.contrasenia}" required="true" requiredMessage="Es necesario introducir la contraseña" id="txtContrasenia"/>
                     <p:message for="txtContrasenia" display="text"/>
                 </p:panelGrid>
                 <p:commandButton styleClass="login-button" id="submitButton" update="formLogin msgWarning" value="Iniciar sesión" action="#{loginControlador.verificarUsuario()}"/>
