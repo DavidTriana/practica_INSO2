@@ -5,14 +5,17 @@
  */
 package controlador;
 
+import EJB.administradoresFacadeLocal;
 import EJB.carritosFacadeLocal;
 import EJB.usuariosFacadeLocal;
 import EJB.vendedoresFacadeLocal;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import modelo.administradores;
 import modelo.carritos;
 import modelo.usuarios;
 import modelo.vendedores;
@@ -30,7 +33,10 @@ public class RegisterControlador implements Serializable {
     private String tipoUsuario;
     private usuarios usuario = new usuarios();
     private vendedores vendedor = new vendedores();
+    private administradores administrador = new administradores();
     private carritos carrito = new carritos();
+
+    private final String adminPassword = "1234";
 
     @EJB
     private usuariosFacadeLocal usuarioFacadeLocal;
@@ -40,6 +46,9 @@ public class RegisterControlador implements Serializable {
 
     @EJB
     private carritosFacadeLocal carritosFacadeLocal;
+
+    @EJB
+    private administradoresFacadeLocal adminFacadeLocal;
 
     public String registrarUsuario() {
         String nav = "login.xhtml?faces-redirect=true";
@@ -52,6 +61,14 @@ public class RegisterControlador implements Serializable {
         } else if (tipoUsuario.equals("vendedor")) {
             vendedorFacadeLocal.create(vendedor);
             vendedor = new vendedores();
+        } else if (tipoUsuario.equals("administrador")) {
+            if (!adminPassword.equals(administrador.getContrasenia())) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Contraseña de administrador incorrecta"));
+                return null; // No redirigir a otra página
+            }
+
+            adminFacadeLocal.create(administrador);
+            administrador = new administradores();
         }
         return nav;
     }
@@ -185,6 +202,22 @@ public class RegisterControlador implements Serializable {
 
     public void setTarjetaBancoVendedor(String tarjetaBanco) {
         vendedor.setTarjetaBanco(tarjetaBanco);
+    }
+
+    public String getEmailAdministrador() {
+        return administrador.getEmail();
+    }
+
+    public void setEmailAdministrador(String email) {
+        administrador.setEmail(email);
+    }
+
+    public String getContraseniaAdministrador() {
+        return administrador.getContrasenia();
+    }
+
+    public void setContraseniaAdministrador(String contrasenia) {
+        administrador.setContrasenia(contrasenia);
     }
 
 }

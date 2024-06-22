@@ -56,6 +56,11 @@ public class productos implements Serializable{
      @JoinColumn(name="pedidos", referencedColumnName="IDPEDIDO")
      @ManyToOne
      private carritos carritos;
+     
+     
+    @JoinColumn(name="administradores_idAdministradores", referencedColumnName="idAdministrador")
+    @ManyToOne
+    private administradores administrador;
     
     public int getIdProducto() {
         return idProducto;
@@ -137,19 +142,28 @@ public class productos implements Serializable{
         this.carritos = carritos;
     }
 
+    public administradores getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(administradores administrador) {
+        this.administrador = administrador;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + this.idProducto;
-        hash = 97 * hash + Objects.hashCode(this.nombre);
-        hash = 97 * hash + Objects.hashCode(this.marca);
-        hash = 97 * hash + Objects.hashCode(this.descripcion);
-        hash = 97 * hash + Objects.hashCode(this.categoria);
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this.precio) ^ (Double.doubleToLongBits(this.precio) >>> 32));
-        hash = 97 * hash + this.cantidad;
-        hash = 97 * hash + this.valoraciones;
-        hash = 97 * hash + Objects.hashCode(this.vendedores);
-        hash = 97 * hash + Objects.hashCode(this.carritos);
+        int hash = 5;
+        hash = 31 * hash + this.idProducto;
+        hash = 31 * hash + Objects.hashCode(this.nombre);
+        hash = 31 * hash + Objects.hashCode(this.marca);
+        hash = 31 * hash + Objects.hashCode(this.descripcion);
+        hash = 31 * hash + Objects.hashCode(this.categoria);
+        hash = 31 * hash + (int) (Double.doubleToLongBits(this.precio) ^ (Double.doubleToLongBits(this.precio) >>> 32));
+        hash = 31 * hash + this.cantidad;
+        hash = 31 * hash + this.valoraciones;
+        hash = 31 * hash + Objects.hashCode(this.vendedores);
+        hash = 31 * hash + Objects.hashCode(this.carritos);
+        hash = 31 * hash + Objects.hashCode(this.administrador);
         return hash;
     }
 
@@ -195,13 +209,17 @@ public class productos implements Serializable{
         if (!Objects.equals(this.carritos, other.carritos)) {
             return false;
         }
+        if (!Objects.equals(this.administrador, other.administrador)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "productos{" + "idProducto=" + idProducto + ", nombre=" + nombre + ", marca=" + marca + ", descripcion=" + descripcion + ", categoria=" + categoria + ", precio=" + precio + ", cantidad=" + cantidad + ", valoraciones=" + valoraciones + ", vendedores=" + vendedores + ", carritos=" + carritos + '}';
+        return "productos{" + "idProducto=" + idProducto + ", nombre=" + nombre + ", marca=" + marca + ", descripcion=" + descripcion + ", categoria=" + categoria + ", precio=" + precio + ", cantidad=" + cantidad + ", valoraciones=" + valoraciones + ", vendedores=" + vendedores + ", carritos=" + carritos + ", administrador=" + administrador + '}';
     }
+
     
     
 }

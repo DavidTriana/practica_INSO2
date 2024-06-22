@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -44,6 +46,10 @@ public class usuarios implements Serializable{
     
     @Column(name="tarjetaBanco")
     private String tarjetaBanco;
+    
+    @JoinColumn(name="administradores_idAdministradores", referencedColumnName="idAdministradores")
+    @ManyToOne
+    private administradores administrador;
 
     public int getIdUsuario() {
         return idUsuario;
@@ -101,16 +107,25 @@ public class usuarios implements Serializable{
         this.tarjetaBanco = tarjetaBanco;
     }
 
+    public administradores getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(administradores administrador) {
+        this.administrador = administrador;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + this.idUsuario;
-        hash = 29 * hash + Objects.hashCode(this.nombre);
-        hash = 29 * hash + Objects.hashCode(this.telefono);
-        hash = 29 * hash + Objects.hashCode(this.email);
-        hash = 29 * hash + Objects.hashCode(this.contrasenia);
-        hash = 29 * hash + Objects.hashCode(this.direccion);
-        hash = 29 * hash + Objects.hashCode(this.tarjetaBanco);
+        hash = 71 * hash + this.idUsuario;
+        hash = 71 * hash + Objects.hashCode(this.nombre);
+        hash = 71 * hash + Objects.hashCode(this.telefono);
+        hash = 71 * hash + Objects.hashCode(this.email);
+        hash = 71 * hash + Objects.hashCode(this.contrasenia);
+        hash = 71 * hash + Objects.hashCode(this.direccion);
+        hash = 71 * hash + Objects.hashCode(this.tarjetaBanco);
+        hash = 71 * hash + Objects.hashCode(this.administrador);
         return hash;
     }
 
@@ -147,12 +162,15 @@ public class usuarios implements Serializable{
         if (!Objects.equals(this.tarjetaBanco, other.tarjetaBanco)) {
             return false;
         }
+        if (!Objects.equals(this.administrador, other.administrador)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "usuarios{" + "idUsuario=" + idUsuario + ", nombre=" + nombre + ", telefono=" + telefono + ", email=" + email + ", contrasenia=" + contrasenia + ", direccion=" + direccion + ", tarjetaBanco=" + tarjetaBanco + '}';
+        return "usuarios{" + "idUsuario=" + idUsuario + ", nombre=" + nombre + ", telefono=" + telefono + ", email=" + email + ", contrasenia=" + contrasenia + ", direccion=" + direccion + ", tarjetaBanco=" + tarjetaBanco + ", administrador=" + administrador + '}';
     }
     
     

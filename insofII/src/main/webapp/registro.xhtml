@@ -12,6 +12,8 @@
                     <f:selectItem itemLabel="Seleccione un tipo de usuario" itemValue="" />
                     <f:selectItem itemLabel="Usuario Normal" itemValue="normal" />
                     <f:selectItem itemLabel="Vendedor" itemValue="vendedor" />
+                    <f:selectItem itemLabel="Administrador" itemValue="administrador" />
+
                     <p:ajax update="formularioRegistro" />
                 </p:selectOneMenu>
             </p:panel>
@@ -71,6 +73,22 @@
                         <p:message for="txtTarjetaVendedor" display="text" />
                     </p:panelGrid>
                     <p:commandButton id="submitButtonVendedor" update="gridVendedor" value="Insertar" action="#{registerControlador.registrarUsuario()}"/>
+                </p:panel>
+                
+                <p:panel rendered="#{registerControlador.tipoUsuario eq 'administrador'}" header="Registro de Administrador">
+                    <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" id="gridAdministrador">
+
+                        <p:outputLabel value="email del Administrador" for="txtEmailAdmin"/>
+                        <p:inputText value="#{registerControlador.emailAdministrador}" required="true" requiredMessage="Email es un campo obligatorio" id="txtEmailAdmin"/>
+                        <p:message for="txtEmailAdmin" display="text" />
+
+                        <p:outputLabel value="contraseña del Administrador" for="txtContraseniaAdmin"/>
+                        <p:password value="#{registerControlador.contraseniaAdministrador}" required="true" requiredMessage="Contraseña es un campo obligatorio" id="txtContraseniaAdmin" feedback="true" promptLabel="Ingresa tu contraseña" weakLabel="Débil"
+                                    goodLabel="Buena" strongLabel="Fuerte" toggleMask="true" redisplay="true"/>
+                        <p:message for="txtContraseniaAdmin" display="text" />
+
+                    </p:panelGrid>
+                    <p:commandButton id="submitButtonAdmin" update="gridAdministrador" value="Insertar" action="#{registerControlador.registrarUsuario()}"/>
                 </p:panel>
 
             </h:panelGroup>
