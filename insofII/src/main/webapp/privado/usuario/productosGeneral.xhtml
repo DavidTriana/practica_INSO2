@@ -65,7 +65,7 @@
                     </p:column>
 
                     <p:column headerText="Vendedor" sortBy="#{producto.vendedores.nombre}" filterBy="#{producto.vendedores.nombre}">
-                        <h:outputText value="#{producto.vendedores.nombre}" />
+                        <h:outputText value="#{producto.vendedores.nombre != null ?  producto.vendedores.nombre : 'Ya no existe esta cuenta'}" />
                     </p:column>
 
                 </p:dataTable>
@@ -94,7 +94,7 @@
                                                      paginator="true" paginatorPosition="bottom" rows="2">
 
                                             <p:column headerText="Usuario">
-                                                <h:outputText value="#{valoracion.idUsuario.nombre}" />
+                                                <h:outputText value="#{valoracion.idUsuario.nombre != null ?  valoracion.idUsuario.nombre  : 'Ya no existe esta cuenta'}" />
                                             </p:column>
 
                                             <p:column headerText="Fecha y Hora">

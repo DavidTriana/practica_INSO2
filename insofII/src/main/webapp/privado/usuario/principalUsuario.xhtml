@@ -48,6 +48,11 @@
                         <p:commandButton value="Editar" oncomplete="PF('dlg').show()" update="dialogo" />
                         <p:commandButton actionListener="#{usuarioControlador.borrarCuenta()}" value="Borrar cuenta" />
 
+                        <p:confirmDialog widgetVar="dlgEliminar" id="confirmDialogEliminar">
+                            <p>Se ha eliminado tu cuenta</p>
+                            <p:commandButton value="Aceptar" action="#{usuarioControlador.logOut()}" onclick="PF('dlg').hide();" />
+                        </p:confirmDialog>
+
                     </h:form>
 
                     <h:form id="valoracionesForm">

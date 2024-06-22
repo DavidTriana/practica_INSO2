@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import modelo.envios;
 import modelo.usuarios;
 import modelo.valoraciones;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -112,14 +113,18 @@ public class UsuarioControlador implements Serializable {
         this.valoracionEJB = valoracionEJB;
     }
 
-    public String borrarCuenta() {
+    public void borrarCuenta() {
         try {
             usuario.setNombre(null);
             usuarioEJB.edit(usuario);
-            return "login.xhtml?faces-redirect=true";
+            PrimeFaces.current().executeScript("PF('dlgEliminar').show();");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return null;
+    }
+    
+    public String logOut() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login.xhtml?faces-redirect=true";
     }
 }
