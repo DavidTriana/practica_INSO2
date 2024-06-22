@@ -287,17 +287,24 @@ public class vendedorControlador implements Serializable{
     public void guardarNuevoProducto() {
     
         // sSystem.out.println("SE VA A GUARDAR UN PRODUCTO NUEVO: "+ nuevoProducto.getNombre());
-                
-        nuevoProducto.setVendedores(vendedor);
-        nuevoProducto.setCantidad(1);
         
-        productoEJB.create(nuevoProducto);
-        
-        productos = productoEJB.obtenerProductosDeVendedor(vendedor);
+        if (productos.size() < 10) {
+            
+            nuevoProducto.setVendedores(vendedor);
+            nuevoProducto.setCantidad(1);
+
+            productoEJB.create(nuevoProducto);
+
+            productos = productoEJB.obtenerProductosDeVendedor(vendedor);
+            
+            nuevoProducto = new productos();
+            
         crearTabla();
-        //TODO logica de guardado del nuevo producto    
+        } else {
         
-        //nuevoProducto = new productos();
+            PrimeFaces.current().executeScript("PF('dlgMaxProductos').show();");
+        }        
+        
     }
     
     public void eliminarProducto(int idProducto){
@@ -308,7 +315,6 @@ public class vendedorControlador implements Serializable{
     
         crearTabla();
     }
-    
     
     public String logOut() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();

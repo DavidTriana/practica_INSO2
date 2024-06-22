@@ -60,6 +60,11 @@
                     </p:panelGrid>
                    
                 </p:panelGrid>
+                
+                <p:confirmDialog widgetVar="dlgMaxProductos" id="confirmDialogEliminar">
+                    <p>Solo puedes tener 10 productos al mismo tiempo.</p>
+                    <p:commandButton value="Aceptar" onclick="PF('dlgMaxProductos').hide();" />
+                </p:confirmDialog>
 
                 <p:dialog header="Información del Producto" widgetVar="productoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="formProductoDialog">
                     <h:form>
@@ -82,7 +87,7 @@
                             <h:outputLabel value="Precio:" />
                             <h:outputText value="#{vendedorControlador.productoSeleccionado.precio}" />
 
-                            <p:commandButton value="Eliminar" action="#{vendedorControlador.eliminarProducto(vendedorControlador.productoSeleccionado.idProducto)}" update=":formProductos:tablaProductos" oncomplete="PF('productoDialog').hide();" />
+                            <p:commandButton value="Eliminar" action="#{vendedorControlador.eliminarProducto(vendedorControlador.productoSeleccionado.idProducto)}" update=":formProductos :formProductos:tablaProductos :barChart :barChart2" oncomplete="PF('productoDialog').hide();" />
                         </h:panelGrid>
                     </h:form>
                 </p:dialog>
@@ -111,7 +116,7 @@
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Guardar" action="#{vendedorControlador.guardarNuevoProducto}" update=":formProductos" oncomplete="PF('dlgNuevoProducto').hide();"/>               
+                        <p:commandButton value="Guardar" action="#{vendedorControlador.guardarNuevoProducto}" update=":formProductos :formProductos:tablaProductos :barChart :barChart2" oncomplete="PF('dlgNuevoProducto').hide();"/>               
                         <p:commandButton value="Cancelar" onclick="PF('dlgNuevoProducto').hide();" type="button" />
                     </h:form>
                 </p:dialog>

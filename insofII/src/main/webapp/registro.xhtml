@@ -7,10 +7,10 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:panel header="Seleccionar tipo de usuario">
+            <p:panel header="Seleccione tipo de usuario">
                 <p:selectOneMenu value="#{registerControlador.tipoUsuario}">
                     <f:selectItem itemLabel="Seleccione un tipo de usuario" itemValue="" />
-                    <f:selectItem itemLabel="Usuario Normal" itemValue="normal" />
+                    <f:selectItem itemLabel="Usuario estándar" itemValue="normal" />
                     <f:selectItem itemLabel="Vendedor" itemValue="vendedor" />
                     <p:ajax update="formularioRegistro" />
                 </p:selectOneMenu>
@@ -49,24 +49,24 @@
 
                 <p:panel rendered="#{registerControlador.tipoUsuario eq 'vendedor'}" header="Registro de Vendedor">
                     <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" id="gridVendedor">
-                        <p:outputLabel value="Inserte el nombre del vendedor" for="txtNombreVendedor"/>
+                        <p:outputLabel value="Nombre de usuario" for="txtNombreVendedor"/>
                         <p:inputText value="#{registerControlador.nombreVendedor}" required="true" requiredMessage="Nombre es un campo obligatorio" id="txtNombreVendedor" />
                         <p:message for="txtNombreVendedor" display="text" />
 
-                        <p:outputLabel value="Inserte el telefono del vendedor" for="txtTelefonoVendedor"/>
+                        <p:outputLabel value="Teléfono" for="txtTelefonoVendedor"/>
                         <p:inputText value="#{registerControlador.telefonoVendedor}" required="true" requiredMessage="Telefono es un campo obligatorio" id="txtTelefonoVendedor"/>
                         <p:message for="txtTelefonoVendedor" display="text" />
 
-                        <p:outputLabel value="Inserte el email del vendedor" for="txtEmailVendedor"/>
+                        <p:outputLabel value="Email" for="txtEmailVendedor"/>
                         <p:inputText value="#{registerControlador.emailVendedor}" required="true" requiredMessage="Email es un campo obligatorio" id="txtEmailVendedor"/>
                         <p:message for="txtEmailVendedor" display="text" />
 
-                        <p:outputLabel value="Inserte el contraseña del vendedor" for="txtContraseniaVendedor"/>
+                        <p:outputLabel value="Contraseña" for="txtContraseniaVendedor"/>
                         <p:password value="#{registerControlador.contraseñaVendedor}" required="true" requiredMessage="Contraseña es un campo obligatorio" id="txtContraseniaVendedor" feedback="true" promptLabel="Ingresa tu contraseña" weakLabel="Débil"
                                     goodLabel="Buena" strongLabel="Fuerte" toggleMask="true" redisplay="true"/>
                         <p:message for="txtContraseniaVendedor" display="text" />
 
-                        <p:outputLabel value="Inserte el tarjeta del banco del vendedor" for="txtTarjetaVendedor"/>
+                        <p:outputLabel value="Cuenta bancaria" for="txtTarjetaVendedor"/>
                         <p:inputText value="#{registerControlador.tarjetaBancoVendedor}" required="true" requiredMessage="Numero de tarjeta es un campo obligatorio" id="txtTarjetaVendedor"/>
                         <p:message for="txtTarjetaVendedor" display="text" />
                     </p:panelGrid>
