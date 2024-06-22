@@ -21,6 +21,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import modelo.vendedores;
+import modelo.productos;
 import org.primefaces.PrimeFaces;
 
 
@@ -104,6 +105,9 @@ public class ConfigVendedorControlador implements Serializable{
     @EJB
     private vendedoresFacadeLocal vendedorEJB;
     
+    @EJB
+    private productosFacadeLocal productoEJB;
+    
     @PostConstruct
     public void init(){
         
@@ -171,5 +175,20 @@ public class ConfigVendedorControlador implements Serializable{
     public String logOut() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "login.xhtml?faces-redirect=true";
+    }
+    
+    public void eliminarCuenta() {
+        
+        List<productos> productos = productoEJB.obtenerProductosDeVendedor(vendedor);
+        
+        for(int i=0; i<productos.size(); i++) {
+            
+            productoEJB.ocultarProducto(productos.get(i).getIdProducto());
+        }
+        
+        vendedor.setNombre(null);
+        vendedorEJB.edit(vendedor); 
+        
+        PrimeFaces.current().executeScript("PF('dlgEliminar').show();");
     }
 }

@@ -54,7 +54,7 @@ public class productosFacade extends AbstractFacade<productos> implements produc
         
         return listaProductos;
     }
-    
+        
     @Override
     public void ocultarProducto(int idProducto){
     

@@ -44,6 +44,10 @@ public class vendedoresFacade extends AbstractFacade<vendedores> implements vend
         
         List<vendedores> resultado = query.getResultList();
          if (!resultado.isEmpty()) {
+             
+            if (resultado.get(0).getNombre() == null) {
+                return null;
+            }
             return resultado.get(0);
         } else {
             return null;
