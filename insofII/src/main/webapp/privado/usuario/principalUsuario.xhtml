@@ -46,6 +46,7 @@
                         </h:panelGrid>
 
                         <p:commandButton value="Editar" oncomplete="PF('dlg').show()" update="dialogo" />
+                        <p:commandButton actionListener="#{usuarioControlador.borrarCuenta()}" value="Borrar cuenta" />
 
                     </h:form>
 
@@ -73,7 +74,7 @@
                             <p:column headerText="Hora">
                                 <h:outputText value="#{valoracion.hora}"/>
                             </p:column>
-                            
+
                             <p:column>
                                 <p:commandButton value="Eliminar valoración" icon="pi pi-trash"
                                                  action="#{usuarioControlador.eliminarValoracion(valoracion)}"

@@ -39,10 +39,13 @@ public class usuariosFacade extends AbstractFacade<usuarios> implements usuarios
 
         query.setParameter("param1", usuario.getEmail());
         query.setParameter("param2", usuario.getContrasenia());
-        
+
         List<usuarios> resultado = query.getResultList();
 
         if (!resultado.isEmpty()) {
+            if (resultado.get(0).getNombre() == null) {
+                return null;
+            }
             return resultado.get(0);
         } else {
             return null;

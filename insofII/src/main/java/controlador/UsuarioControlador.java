@@ -112,4 +112,14 @@ public class UsuarioControlador implements Serializable {
         this.valoracionEJB = valoracionEJB;
     }
 
+    public String borrarCuenta() {
+        try {
+            usuario.setNombre(null);
+            usuarioEJB.edit(usuario);
+            return "login.xhtml?faces-redirect=true";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
